@@ -237,7 +237,11 @@ export default function IDELayout() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="fixed inset-0 flex flex-col overflow-hidden bg-vscode-bg"
+      className={`fixed inset-0 flex flex-col overflow-hidden bg-vscode-bg ${
+        isResizingSidebar || isResizingTerminal ? "select-none" : ""
+      } ${isResizingSidebar ? "cursor-col-resize" : ""} ${
+        isResizingTerminal ? "cursor-row-resize" : ""
+      }`}
     >
       <TitleBar
         onCommandPalette={() => setPaletteOpen(true)}
