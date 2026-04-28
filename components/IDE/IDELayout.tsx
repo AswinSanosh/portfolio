@@ -287,7 +287,7 @@ export default function IDELayout() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 bg-black/60 z-40 md:hidden"
+                className="fixed inset-0 bg-black/60 z-[60] md:hidden"
                 onClick={() => setDrawerOpen(false)}
               />
               <motion.div
@@ -296,7 +296,7 @@ export default function IDELayout() {
                 animate={{ x: 0 }}
                 exit={{ x: -300 }}
                 transition={{ type: "spring", damping: 28, stiffness: 320 }}
-                className="fixed top-0 left-0 bottom-0 w-72 z-50 md:hidden flex flex-col overflow-hidden bg-vscode-sidebar border-r border-vscode-border"
+                className="fixed top-0 left-0 bottom-0 w-72 z-[70] md:hidden flex flex-col overflow-hidden bg-vscode-sidebar border-r border-vscode-border"
               >
                 <div className="flex items-center justify-between px-4 h-11 border-b border-vscode-border shrink-0">
                   <span className="text-[11px] uppercase tracking-widest text-vscode-muted font-semibold">Explorer</span>
@@ -329,7 +329,7 @@ export default function IDELayout() {
             <div
               onMouseDown={() => setIsResizingTerminal(true)}
               onTouchStart={() => setIsResizingTerminal(true)}
-              className={`h-[4px] md:h-[2px] md:hover:h-[4px] bg-vscode-border hover:bg-vscode-blue cursor-row-resize z-50 transition-all shrink-0 ${isResizingTerminal ? "bg-vscode-blue h-[4px]" : ""}`}
+              className={`h-[4px] md:h-[2px] md:hover:h-[4px] bg-vscode-border hover:bg-vscode-blue cursor-row-resize z-30 transition-all shrink-0 ${isResizingTerminal ? "bg-vscode-blue h-[4px]" : ""}`}
             />
           )}
           
