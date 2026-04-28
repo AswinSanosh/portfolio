@@ -194,7 +194,7 @@ export default function IDELayout() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="h-screen flex flex-col overflow-hidden bg-vscode-bg"
+      className="h-[100dvh] flex flex-col overflow-hidden bg-vscode-bg"
     >
       <TitleBar
         onCommandPalette={() => setPaletteOpen(true)}
@@ -270,7 +270,7 @@ export default function IDELayout() {
       </div>
 
       {/* Mobile bottom navigation bar */}
-      <div className="md:hidden shrink-0 flex items-center justify-around h-12 bg-vscode-sidebar border-t border-vscode-border">
+      <div className="lg:hidden shrink-0 flex items-center justify-around h-14 bg-vscode-sidebar border-t border-vscode-border z-20 pb-safe">
         {MOBILE_NAV.map((item) => (
           <button
             key={item.id}
