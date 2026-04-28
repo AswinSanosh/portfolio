@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 
 const fadeUp = {
@@ -66,11 +66,7 @@ export default function ProjectsFile() {
                         <span className="font-semibold text-sm" style={{ color: project.color }}>
                           {project.name}
                         </span>
-                        {project.highlight && (
-                          <span className="px-1.5 py-0.5 rounded text-[10px] bg-vscode-highlight text-vscode-cyan border border-vscode-blue/30">
-                            <Star size={10} className="inline mr-0.5" />Featured
-                          </span>
-                        )}
+
                       </div>
                       <div className="text-vscode-muted text-xs mt-0.5">{project.subtitle}</div>
                     </div>
