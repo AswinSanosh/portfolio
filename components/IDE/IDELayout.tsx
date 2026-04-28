@@ -319,7 +319,10 @@ export default function IDELayout() {
             </>
           )}
           <EditorContent activeFile={activeFile} openFiles={openFiles} onNavigate={openFile} />
-          <HireMeButton onOpenContact={() => openFile("contact")} terminalOpen={terminalOpen} />
+          
+          <div className="relative shrink-0 z-40">
+            <HireMeButton onOpenContact={() => openFile("contact")} terminalOpen={terminalOpen} />
+          </div>
           
           {/* Terminal resizer */}
           {terminalOpen && (
@@ -363,9 +366,12 @@ export default function IDELayout() {
 
       <CommandPalette isOpen={paletteOpen} onClose={() => setPaletteOpen(false)} onOpen={openFile} />
 
-
-
-      <Toast message={toast} onClose={() => setToast(null)} />
+      {/* Screen-centered Toast positioned above terminal */}
+      <Toast 
+        message={toast} 
+        onClose={() => setToast(null)} 
+        bottomOffset={24 + (typeof window !== 'undefined' && window.innerWidth < 1024 ? 56 : 0) + (terminalOpen ? terminalHeight : 32) + 16}
+      />
     </motion.div>
   );
 }
