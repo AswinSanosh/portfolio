@@ -167,7 +167,7 @@ export default function IDELayout() {
             {[
               { name: "React.js",      version: "v18",   Icon: Code2,      color: "#61dafb" },
               { name: "Next.js",       version: "v14",   Icon: Triangle,   color: "#ffffff" },
-              { name: "Python",        version: "v3.x",  Icon: Terminal,   color: "#3572A5" },
+              { name: "Python",        version: "v3.x",  Icon: TermIcon,   color: "#3572A5" },
               { name: "Django",        version: "v4.x",  Icon: Code2,      color: "#092e20" },
               { name: "TypeScript",    version: "v5",    Icon: Diamond,    color: "#3178c6" },
               { name: "Tailwind CSS",  version: "v3",    Icon: Code2,      color: "#38bdf8" },
