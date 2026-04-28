@@ -166,9 +166,10 @@ const COMMANDS: Record<string, () => string[]> = {
 interface TerminalProps {
   isOpen: boolean;
   onToggle: () => void;
+  height?: number;
 }
 
-export default function Terminal({ isOpen, onToggle }: TerminalProps) {
+export default function Terminal({ isOpen, onToggle, height }: TerminalProps) {
   const [lines, setLines] = useState<Line[]>([
     { type: "info", text: `  Welcome to ${portfolioData.name.toLowerCase().replace(/ /g, "")}.dev terminal. Type "help" for commands.` },
     { type: "info", text: "" },
@@ -230,7 +231,10 @@ export default function Terminal({ isOpen, onToggle }: TerminalProps) {
   };
 
   return (
-    <div className={`flex flex-col border-t border-vscode-border bg-[#1e1e1e] transition-all duration-200 ${isOpen ? "h-36 sm:h-44 md:h-52" : "h-8"}`}>
+    <div
+      className={`flex flex-col border-t border-vscode-border bg-[#1e1e1e] ${!height ? "transition-all duration-200" : ""}`}
+      style={isOpen ? { height: height ?? 200 } : { height: 32 }}
+    >
       <button
         onClick={onToggle}
         className="flex items-center gap-2 px-4 h-8 text-xs text-vscode-muted hover:text-vscode-text hover:bg-vscode-hover transition-colors shrink-0 w-full text-left"

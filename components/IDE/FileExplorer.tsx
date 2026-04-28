@@ -67,7 +67,7 @@ export default function FileExplorer({ activeFile, openFiles, onFileOpen }: File
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.4 }}
-      className="w-60 bg-vscode-sidebar flex flex-col shrink-0 border-r border-vscode-border overflow-y-auto"
+      className="bg-vscode-sidebar flex flex-col w-full overflow-y-auto h-full"
     >
       <div className="px-4 py-2 text-[11px] font-semibold text-vscode-muted uppercase tracking-widest select-none">
         Explorer

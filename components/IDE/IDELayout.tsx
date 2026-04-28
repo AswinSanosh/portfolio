@@ -33,6 +33,10 @@ export default function IDELayout() {
   const [toast, setToast]                   = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen]         = useState(false);
   const [gitInfo, setGitInfo]               = useState<{ branch: string; commits: number | null; tag: string | null; repo: string | null; status: string } | null>(null);
+  const [sidebarWidth, setSidebarWidth]     = useState(260);
+  const [terminalHeight, setTerminalHeight] = useState(200);
+  const [isResizingSidebar, setIsResizingSidebar] = useState(false);
+  const [isResizingTerminal, setIsResizingTerminal] = useState(false);
 
   useEffect(() => {
     fetch("/api/git").then(r => r.json()).then(setGitInfo).catch(() => {});
@@ -70,13 +74,52 @@ export default function IDELayout() {
     return () => clearTimeout(t);
   }, []);
 
+  useEffect(() => {
+    if (!isResizingSidebar) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      const clientX = e.clientX;
+      const newWidth = Math.max(160, Math.min(600, clientX - 48));
+      setSidebarWidth(newWidth);
+    };
+    const handleMouseUp = () => setIsResizingSidebar(false);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isResizingSidebar]);
+
+  useEffect(() => {
+    if (!isResizingTerminal) return;
+    const handleMove = (e: MouseEvent | TouchEvent) => {
+      if (e instanceof TouchEvent && e.cancelable) e.preventDefault();
+      const clientY = 'touches' in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
+      const newHeight = Math.max(40, Math.min(window.innerHeight - 150, window.innerHeight - clientY - 60)); // Adjusted for mobile bottom nav
+      setTerminalHeight(newHeight);
+    };
+    const handleEnd = () => setIsResizingTerminal(false);
+    
+    window.addEventListener("mousemove", handleMove);
+    window.addEventListener("mouseup", handleEnd);
+    window.addEventListener("touchmove", handleMove, { passive: false });
+    window.addEventListener("touchend", handleEnd);
+    
+    return () => {
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseup", handleEnd);
+      window.removeEventListener("touchmove", handleMove);
+      window.removeEventListener("touchend", handleEnd);
+    };
+  }, [isResizingTerminal]);
+
   const sidebarPanelContent = (
     <>
       {activePanel === "explorer" && (
         <FileExplorer activeFile={activeFile} openFiles={openFiles} onFileOpen={openFile} />
       )}
       {activePanel === "search" && (
-        <div className="w-60 bg-vscode-sidebar border-r border-vscode-border p-4 shrink-0">
+        <div className="flex-1 bg-vscode-sidebar p-4 overflow-y-auto">
           <div className="text-[11px] text-vscode-muted uppercase tracking-widest mb-3">Files</div>
           <div className="space-y-1">
             {(["readme","about","skills","projects","experience","education","contact","github"] as FileId[]).map((id) => (
@@ -89,7 +132,7 @@ export default function IDELayout() {
         </div>
       )}
       {activePanel === "git" && (
-        <div className="w-60 bg-vscode-sidebar border-r border-vscode-border shrink-0 flex flex-col overflow-hidden">
+        <div className="flex-1 bg-vscode-sidebar flex flex-col overflow-hidden">
           <div className="px-4 pt-4 pb-2">
             <div className="text-[11px] text-vscode-muted uppercase tracking-widest mb-3">Source Control</div>
             <div className="flex items-center justify-between">
@@ -161,7 +204,7 @@ export default function IDELayout() {
         </div>
       )}
       {activePanel === "extensions" && (
-        <div className="w-60 bg-vscode-sidebar border-r border-vscode-border p-4 shrink-0 overflow-y-auto">
+        <div className="flex-1 bg-vscode-sidebar p-4 overflow-y-auto">
           <div className="text-[11px] text-vscode-muted uppercase tracking-widest mb-3">Tech Stack</div>
           <div className="space-y-2 text-xs">
             {[
@@ -217,9 +260,17 @@ export default function IDELayout() {
 
         {/* Desktop sidebar panels */}
         {sidebarVisible && (
-          <div className="hidden md:flex shrink-0">
+          <div className="hidden md:flex shrink-0" style={{ width: sidebarWidth }}>
             {sidebarPanelContent}
           </div>
+        )}
+
+        {/* Sidebar resizer */}
+        {sidebarVisible && (
+          <div
+            onMouseDown={() => setIsResizingSidebar(true)}
+            className={`hidden md:block w-[2px] hover:w-[4px] bg-vscode-border hover:bg-vscode-blue cursor-col-resize z-50 transition-all ${isResizingSidebar ? "bg-vscode-blue w-[4px]" : ""}`}
+          />
         )}
 
         {/* Mobile drawer overlay */}
@@ -265,7 +316,17 @@ export default function IDELayout() {
           )}
           <EditorContent activeFile={activeFile} openFiles={openFiles} onNavigate={openFile} />
           <HireMeButton onOpenContact={() => openFile("contact")} terminalOpen={terminalOpen} />
-          <Terminal isOpen={terminalOpen} onToggle={() => setTerminalOpen((p) => !p)} />
+          
+          {/* Terminal resizer */}
+          {terminalOpen && (
+            <div
+              onMouseDown={() => setIsResizingTerminal(true)}
+              onTouchStart={() => setIsResizingTerminal(true)}
+              className={`h-[4px] md:h-[2px] md:hover:h-[4px] bg-vscode-border hover:bg-vscode-blue cursor-row-resize z-50 transition-all shrink-0 ${isResizingTerminal ? "bg-vscode-blue h-[4px]" : ""}`}
+            />
+          )}
+          
+          <Terminal isOpen={terminalOpen} onToggle={() => setTerminalOpen((p) => !p)} height={terminalHeight} />
         </div>
       </div>
 
