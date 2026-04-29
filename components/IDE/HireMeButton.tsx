@@ -12,7 +12,7 @@ export default function HireMeButton({ onOpenContact, terminalOpen }: { onOpenCo
         transition={{ delay: 1.5 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`absolute right-3 bottom-4 z-30 hidden md:flex items-center gap-1.5 px-3 py-1 rounded text-[11px] font-medium bg-[#007acc] text-white hover:bg-[#0062a3] transition-all shadow-sm`}
+        className={`absolute right-3 bottom-4 z-30 hidden md:flex items-center gap-1.5 px-3 py-1 rounded text-[11px] font-medium bg-vscode-statusbar text-white hover:brightness-90 transition-all shadow-sm`}
       >
         <Mail size={12} />
         <span>Hire Me</span>

@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, User, Code2, Github, Mail, Terminal as TermIcon, Smartphone, Triangle, Diamond, Flame, Cloud, Database, GitBranch, Package, Tag, CheckCircle, Loader2 } from "lucide-react";
+import { FileText, User, Code2, Github, Mail, Terminal as TermIcon, Smartphone, Triangle, Diamond, Flame, Cloud, Database, GitBranch, Package, Tag, CheckCircle, Loader2, Search } from "lucide-react";
 import TitleBar from "./TitleBar";
 import ActivityBar from "./ActivityBar";
 import FileExplorer from "./FileExplorer";
@@ -14,6 +14,8 @@ import Breadcrumb from "./Breadcrumb";
 import CommandPalette from "./CommandPalette";
 import HireMeButton from "./HireMeButton";
 import Toast from "./Toast";
+import ShortcutsModal from "./ShortcutsModal";
+import { portfolioData } from "@/data/portfolio";
 
 const MOBILE_NAV: { id: FileId; Icon: React.ElementType; label: string }[] = [
   { id: "readme",   Icon: FileText, label: "Home"    },
@@ -28,8 +30,10 @@ export default function IDELayout() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [openFiles, setOpenFiles]           = useState<FileId[]>(["readme"]);
   const [activeFile, setActiveFile]         = useState<FileId>("readme");
-  const [terminalOpen, setTerminalOpen]     = useState(true);
+  const [terminalOpen, setTerminalOpen]     = useState(false);
   const [paletteOpen, setPaletteOpen]       = useState(false);
+  const [shortcutsOpen, setShortcutsOpen]   = useState(false);
+  const [searchQuery, setSearchQuery]       = useState("");
   const [toast, setToast]                   = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen]         = useState(false);
   const [gitInfo, setGitInfo]               = useState<{ branch: string; commits: number | null; tag: string | null; repo: string | null; status: string } | null>(null);
@@ -46,6 +50,7 @@ export default function IDELayout() {
     setOpenFiles((prev) => (prev.includes(id) ? prev : [...prev, id]));
     setActiveFile(id);
     setDrawerOpen(false);
+    setSidebarVisible(true);
   }, []);
 
   const closeFile = (id: FileId) => {
@@ -60,9 +65,20 @@ export default function IDELayout() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-        e.preventDefault();
-        setPaletteOpen((p) => !p);
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === "k" || e.key === "K") {
+          e.preventDefault();
+          setPaletteOpen((p) => !p);
+        } else if (e.key === "`") {
+          e.preventDefault();
+          setTerminalOpen((p) => !p);
+        } else if (e.key === "b" || e.key === "B") {
+          e.preventDefault();
+          setSidebarVisible((p) => {
+            if (!p) setActivePanel("explorer");
+            return !p;
+          });
+        }
       }
     };
     window.addEventListener("keydown", handler);
@@ -113,21 +129,76 @@ export default function IDELayout() {
     };
   }, [isResizingTerminal]);
 
+  const FILE_CONTENT: Record<FileId, string> = {
+    readme: portfolioData.summary + portfolioData.tagline,
+    about: portfolioData.summary + portfolioData.tagline + portfolioData.softSkills.join(" ") + portfolioData.languages.join(" "),
+    skills: Object.values(portfolioData.skills).flat().join(" "),
+    projects: portfolioData.projects.map(p => `${p.name} ${p.subtitle} ${p.description} ${p.tech.join(" ")}`).join(" "),
+    experience: portfolioData.experience.map(e => `${e.role} ${e.company} ${e.description} ${e.tech.join(" ")}`).join(" "),
+    education: portfolioData.education.map(e => `${e.degree} ${e.institution}`).join(" "),
+    contact: `${portfolioData.email} ${portfolioData.phone} ${portfolioData.linkedin} ${portfolioData.location}`,
+    github: "github stats repositories commits contributions " + portfolioData.github,
+  };
+
+  const searchResults = (["readme","about","skills","projects","experience","education","contact","github"] as FileId[]).filter(id => {
+    if (!searchQuery) return true;
+    const content = FILE_CONTENT[id] || "";
+    return (
+      id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      content.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
   const sidebarPanelContent = (
     <>
       {activePanel === "explorer" && (
         <FileExplorer activeFile={activeFile} openFiles={openFiles} onFileOpen={openFile} />
       )}
       {activePanel === "search" && (
-        <div className="flex-1 bg-vscode-sidebar p-4 overflow-y-auto">
-          <div className="text-[11px] text-vscode-muted uppercase tracking-widest mb-3">Files</div>
-          <div className="space-y-1">
-            {(["readme","about","skills","projects","experience","education","contact","github"] as FileId[]).map((id) => (
-              <button key={id} onClick={() => { openFile(id); setActivePanel("explorer"); }}
-                className="w-full text-left text-xs text-vscode-muted hover:text-vscode-text hover:bg-vscode-hover px-2 py-1.5 rounded transition-colors capitalize">
-                {id}
-              </button>
-            ))}
+        <div className="flex-1 bg-vscode-sidebar flex flex-col min-h-0 overflow-hidden">
+          <div className="p-4 border-b border-vscode-border/50">
+            <div className="text-[11px] text-vscode-muted uppercase tracking-widest mb-3">Search</div>
+            <div className="relative group">
+              <input
+                autoFocus
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search across files..."
+                className="w-full bg-[#1e1e1e] border border-vscode-border/50 rounded-sm py-1.5 pl-8 pr-2 text-[11px] text-vscode-text focus:outline-none focus:border-vscode-blue transition-colors placeholder:text-vscode-muted/40"
+              />
+              <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-vscode-muted group-focus-within:text-vscode-blue transition-colors" />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-vscode-muted hover:text-vscode-text px-1">
+                  ×
+                </button>
+              )}
+            </div>
+          </div>
+          
+          <div className="flex-1 overflow-y-auto p-4 pt-3">
+             <div className="text-[10px] text-vscode-muted uppercase tracking-widest mb-3 flex justify-between items-center px-1">
+                <span>{searchQuery ? `${searchResults.length} ${searchResults.length === 1 ? 'match' : 'matches'}` : 'Files'}</span>
+             </div>
+             <div className="space-y-1">
+               {searchResults.length === 0 ? (
+                 <div className="text-[11px] text-vscode-muted italic text-center py-8">No results found</div>
+               ) : (
+                 searchResults.map((id) => (
+                   <button key={id} onClick={() => { openFile(id); }}
+                     className="w-full flex items-center gap-3 text-left text-xs text-vscode-muted hover:text-vscode-text hover:bg-vscode-hover px-2 py-2 rounded transition-all group">
+                     <div className="shrink-0 w-1 h-1 rounded-full bg-vscode-blue/30 group-hover:bg-vscode-blue transition-colors" />
+                     <div className="flex flex-col min-w-0">
+                       <span className="capitalize text-vscode-text/90 group-hover:text-vscode-blue transition-colors">{id}</span>
+                       {searchQuery && FILE_CONTENT[id]?.toLowerCase().includes(searchQuery.toLowerCase()) && (
+                         <span className="text-[10px] text-vscode-muted/60 truncate mt-0.5">
+                           Match found in content
+                         </span>
+                       )}
+                     </div>
+                   </button>
+                 ))
+               )}
+             </div>
           </div>
         </div>
       )}
@@ -246,9 +317,13 @@ export default function IDELayout() {
       <TitleBar
         onCommandPalette={() => setPaletteOpen(true)}
         onCloseTab={closeActiveTab}
-        onToggleSidebar={() => setSidebarVisible((p) => !p)}
+        onToggleSidebar={() => setSidebarVisible((p) => {
+          if (!p) setActivePanel("explorer");
+          return !p;
+        })}
         onToggleTerminal={() => setTerminalOpen((p) => !p)}
         onMobileMenu={() => setDrawerOpen((p) => !p)}
+        onOpenShortcuts={() => setShortcutsOpen(true)}
       />
 
       <div className="flex flex-1 overflow-hidden min-h-0 relative">
@@ -256,7 +331,10 @@ export default function IDELayout() {
         <div className="hidden md:block shrink-0">
           <ActivityBar
             activePanel={activePanel}
-            onPanelChange={setActivePanel}
+            onPanelChange={(p) => {
+              setActivePanel(p);
+              setSidebarVisible(!!p);
+            }}
             onContactOpen={() => openFile("contact")}
             activeFile={activeFile}
           />
@@ -295,7 +373,7 @@ export default function IDELayout() {
                 initial={{ x: -300 }}
                 animate={{ x: 0 }}
                 exit={{ x: -300 }}
-                transition={{ type: "spring", damping: 28, stiffness: 320 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
                 className="fixed top-0 left-0 bottom-0 w-72 z-[70] md:hidden flex flex-col overflow-hidden bg-vscode-sidebar border-r border-vscode-border"
               >
                 <div className="flex items-center justify-between px-4 h-11 border-b border-vscode-border shrink-0">
@@ -365,6 +443,7 @@ export default function IDELayout() {
       <StatusBar activeFile={activeFile} onCommandPalette={() => setPaletteOpen(true)} />
 
       <CommandPalette isOpen={paletteOpen} onClose={() => setPaletteOpen(false)} onOpen={openFile} />
+      <ShortcutsModal isOpen={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
 
       {/* Screen-centered Toast positioned above terminal */}
       <Toast 

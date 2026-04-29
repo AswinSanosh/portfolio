@@ -9,24 +9,54 @@ interface Line {
 }
 
 const COMMANDS: Record<string, () => string[]> = {
-  help: () => [
-    "╔══════════════════════════════════════════════╗",
-    "║           Available Commands                  ║",
-    "╠══════════════════════════════════════════════╣",
-    "║  whoami              — About me               ║",
-    "║  skills              — List my tech skills    ║",
-    "║  projects            — Show my projects       ║",
-    "║  experience          — Work history           ║",
-    "║  contact             — How to reach me        ║",
-    "║  hire                — Make me an offer 😄   ║",
-    "║  git log             — My commit history      ║",
-    `║  npm install ${portfolioData.name.toLowerCase().replace(/ /g, "")}   — Install me 📦         ║`,
-    `║  sudo hire ${portfolioData.name.toLowerCase().replace(/ /g, "")}     — Fast track hiring 🚀  ║`,
-    `║  ping ${portfolioData.name.toLowerCase().replace(/ /g, "")}          — Check availability    ║`,
-    "║  ls  /  pwd  /  date — Unix classics         ║",
-    "║  clear               — Clear terminal        ║",
-    "╚══════════════════════════════════════════════╝",
-  ],
+  help: () => {
+    const name = portfolioData.name.toLowerCase().replace(/ /g, "");
+    const cmds = [
+      { cmd: "whoami", desc: "About me" },
+      { cmd: "skills", desc: "List my tech skills" },
+      { cmd: "projects", desc: "Show my projects" },
+      { cmd: "experience", desc: "Work history" },
+      { cmd: "contact", desc: "How to reach me" },
+      { cmd: "hire", desc: "Make me an offer 😄" },
+      { cmd: "git log", desc: "My commit history" },
+      { cmd: `npm install ${name}`, desc: "Install me 📦" },
+      { cmd: `sudo hire ${name}`, desc: "Fast track hiring 🚀" },
+      { cmd: `ping ${name}`, desc: "Check availability" },
+      { cmd: "ls / pwd / date", desc: "Unix classics" },
+      { cmd: "clear", desc: "Clear terminal" },
+    ];
+
+    // Use standard JS length since emojis in this font accurately take up 2 character columns
+    const maxCmdLen = Math.max(...cmds.map(c => c.cmd.length));
+    
+    const CMD_PADDING = 4;
+    const lines = cmds.map(c => `${c.cmd.padEnd(maxCmdLen + CMD_PADDING, " ")}— ${c.desc}`);
+    
+    const maxLen = Math.max(...lines.map(l => l.length));
+    
+    // Increase the total width of the box
+    const EXTRA_BOX_PADDING = 12;
+    const innerWidth = maxLen + EXTRA_BOX_PADDING;
+
+    const topBorder = "╔" + "═".repeat(innerWidth) + "╗";
+    const divider = "╠" + "═".repeat(innerWidth) + "╣";
+    const bottomBorder = "╚" + "═".repeat(innerWidth) + "╝";
+    
+    const title = " Available Commands ";
+    const leftPad = Math.floor((innerWidth - title.length) / 2);
+    const rightPad = innerWidth - title.length - leftPad;
+    const titleLine = "║" + "".repeat(leftPad) + title + "\t\t\t\t\t\t\t\t\t   " + "║";
+
+    const textWidth = innerWidth - 4;
+
+    return [
+      topBorder,
+      titleLine,
+      divider,
+      ...lines.map(l => "║" + l.padEnd(textWidth, " ") + "║"),
+      bottomBorder
+    ];
+  },
 
   whoami: () => [
     `Name    : ${portfolioData.name}`,
@@ -171,7 +201,7 @@ interface TerminalProps {
 
 export default function Terminal({ isOpen, onToggle, height }: TerminalProps) {
   const [lines, setLines] = useState<Line[]>([
-    { type: "info", text: `  Welcome to ${portfolioData.name.toLowerCase().replace(/ /g, "")}.dev terminal. Type "help" for commands.` },
+    { type: "info", text: `Welcome to ${portfolioData.name.toLowerCase().replace(/ /g, "")}.dev terminal. Type "help" for commands.` },
     { type: "info", text: "" },
   ]);
   const [input, setInput] = useState("");
@@ -195,7 +225,7 @@ export default function Terminal({ isOpen, onToggle, height }: TerminalProps) {
     if (!trimmed) return;
 
     if (trimmed === "clear") {
-      setLines([{ type: "info", text: '  Terminal cleared. Type "help" for commands.' }, { type: "info", text: "" }]);
+      setLines([{ type: "info", text: 'Terminal cleared. Type "help" for commands.' }, { type: "info", text: "" }]);
       return;
     }
 
@@ -206,7 +236,7 @@ export default function Terminal({ isOpen, onToggle, height }: TerminalProps) {
     } else {
       setLines((prev) => [
         ...prev,
-        { type: "error", text: `  Command not found: "${trimmed}". Type "help" for available commands.` },
+        { type: "error", text: `Command not found: "${trimmed}". Type "help" for available commands.` },
       ]);
     }
   };
@@ -244,7 +274,6 @@ export default function Terminal({ isOpen, onToggle, height }: TerminalProps) {
         <span className="ml-2 text-vscode-green text-[10px]">bash</span>
         <span className="ml-auto text-[10px] opacity-50">{portfolioData.name.toLowerCase().split(" ")[0]}@portfolio:~</span>
       </button>
-
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -252,13 +281,14 @@ export default function Terminal({ isOpen, onToggle, height }: TerminalProps) {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="flex-1 overflow-y-auto px-4 pb-2 font-mono text-xs"
+            className="flex-1 overflow-y-auto px-4 pb-2 font-mono text-xs bg-[#0c0c0c]"
             onClick={() => inputRef.current?.focus()}
           >
+            <br></br>
             {lines.map((line, i) => (
               <div
                 key={i}
-                className={
+                className={`whitespace-pre ${
                   line.type === "input"
                     ? "text-vscode-cyan"
                     : line.type === "error"
@@ -266,25 +296,26 @@ export default function Terminal({ isOpen, onToggle, height }: TerminalProps) {
                       : line.type === "info"
                         ? "text-vscode-muted"
                         : "text-vscode-green"
-                }
+                }`}
               >
                 {line.text}
               </div>
             ))}
 
             <div className="flex items-center gap-1 mt-1">
-              <span className="text-vscode-cyan">{portfolioData.name.toLowerCase().split(" ")[0]}@portfolio</span>
+              <span style={{ color: 'rgb(var(--theme-accent))' }}>{portfolioData.name.toLowerCase().split(" ")[0]}@portfolio</span>
               <span className="text-vscode-muted">:</span>
-              <span className="text-vscode-blue">~</span>
+              <span style={{ color: 'rgb(var(--theme-accent))' }}>~</span>
               <span className="text-vscode-muted">$</span>
               <input
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKey}
-                className="flex-1 bg-transparent outline-none text-vscode-text ml-1 caret-white"
+                className="flex-1 bg-transparent outline-none text-vscode-text ml-1 caret-white placeholder:text-vscode-muted/40 placeholder:italic"
                 spellCheck={false}
                 autoComplete="off"
+                placeholder="This terminal is just for fun. Try typing 'help'..."
               />
             </div>
             <div ref={bottomRef} />

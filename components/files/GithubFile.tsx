@@ -576,9 +576,9 @@ export default function GithubFile() {
             { label: "Commits",        value: (stats.allTimeCommits || stats.totalCommits).toLocaleString(),             color: "text-vscode-blue"   },
             { label: "Pull Requests",  value: (stats.allTimePRs || stats.totalPRs).toLocaleString(),                     color: "text-vscode-pink"   },
           ].map((s) => (
-            <div key={s.label} className="p-3 rounded-lg bg-vscode-sidebar border border-vscode-border text-center">
-              <div className={`text-lg font-bold ${s.color}`}>{s.value}</div>
-              <div className="text-vscode-muted text-[11px]">{s.label}</div>
+            <div key={s.label} className="p-2 sm:p-3 rounded-lg bg-vscode-sidebar border border-vscode-border text-center min-w-0">
+              <div className={`text-lg font-bold ${s.color} truncate`}>{s.value}</div>
+              <div className="text-vscode-muted text-[10px] sm:text-[11px] truncate" title={s.label}>{s.label}</div>
             </div>
           ))}
         </div>

@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Smartphone, BarChart2, Code2, User } from "lucide-react";
+import { Smartphone, BarChart2, Code2 } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 
 const fadeUp = {
@@ -25,8 +25,8 @@ export default function AboutFile() {
 
       <motion.div variants={fadeUp} custom={1} initial="hidden" animate="show" className="pl-6 space-y-4 border-l-2 border-vscode-blue/30">
         <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
-          <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-vscode-blue to-vscode-pink flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/20">
-            <User size={36} className="text-white" />
+          <div className="w-40 h-40 rounded-xl overflow-hidden shrink-0 shadow-lg shadow-blue-500/20">
+            <img src="/photo.jpg" alt="Profile" className="w-full h-full object-cover" />
           </div>
           <div className="space-y-1">
             <div className="text-2xl font-bold text-white">{portfolioData.name}</div>
@@ -38,9 +38,6 @@ export default function AboutFile() {
       </motion.div>
 
       <motion.div variants={fadeUp} custom={2} initial="hidden" animate="show" className="font-mono text-xs space-y-2 pl-6">
-        <div><span className="code-property">  name</span><span className="code-operator">: </span><span className="code-string">&quot;{portfolioData.name}&quot;</span><span>,</span></div>
-        <div><span className="code-property">  role</span><span className="code-operator">: </span><span className="code-string">&quot;{portfolioData.title}&quot;</span><span>,</span></div>
-        <div><span className="code-property">  location</span><span className="code-operator">: </span><span className="code-string">&quot;Kerala, India&quot;</span><span>,</span></div>
         <div><span className="code-property">  status</span><span className="code-operator">: </span><span className="code-string">&quot;Open to opportunities&quot;</span><span>,</span></div>
         <div><span className="code-property">  graduating</span><span className="code-operator">: </span><span className="code-number">2026</span><span>,</span></div>
       </motion.div>

@@ -1,6 +1,7 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { CheckCircle } from "lucide-react";
 
 interface ToastProps {
@@ -16,21 +17,29 @@ export default function Toast({ message, onClose, bottomOffset = 40 }: ToastProp
     return () => clearTimeout(t);
   }, [message, onClose]);
 
-  return (
+  if (typeof window === "undefined") return null;
+
+  const toast = (
     <AnimatePresence>
       {message && (
-        <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 20, scale: 0.95 }}
-          transition={{ duration: 0.2 }}
-          className="fixed right-4 md:left-1/2 md:-translate-x-1/2 z-[100] flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#252526] border border-vscode-border shadow-2xl text-sm text-vscode-text w-[75vw] md:w-fit max-w-[90vw]"
+        <div 
+          className="fixed inset-x-0 z-[9999] flex justify-center pointer-events-none"
           style={{ bottom: bottomOffset }}
         >
-          <CheckCircle size={16} className="text-vscode-green shrink-0" />
-          {message}
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-lg bg-[#252526] border border-vscode-border shadow-2xl text-sm text-vscode-text w-fit max-w-[calc(100vw-32px)] md:max-w-md"
+          >
+            <CheckCircle size={16} className="text-vscode-green shrink-0" />
+            <span className="flex-1 break-words">{message}</span>
+          </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );
+
+  return createPortal(toast, document.body);
 }

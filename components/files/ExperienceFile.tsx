@@ -102,17 +102,17 @@ export default function ExperienceFile() {
         <div className="p-4 rounded-lg bg-vscode-sidebar border border-vscode-border">
           <div className="text-vscode-muted text-[11px] uppercase tracking-wider font-semibold mb-3">Timeline</div>
           <div className="relative pl-4">
-            <div className="absolute left-0 top-1 bottom-1 w-px bg-vscode-border" />
+            <div className="absolute left-0 top-1 bottom-1 w-px bg-vscode-border z-0" />
             {[
-              { year: "2021", event: "Started MCA at Saintgits College of Engineering", color: "#4fc1ff" },
-              { year: "2023", event: "Chief Marketing Officer at IEDC@Saintgits",       color: "#c586c0" },
-              { year: "2024", event: "Research Intern at National Chung Cheng University", color: "#dcdcaa" },
-              { year: "2025", event: "Software Mentor at Tessat Space (Startup)",        color: "#6a9955" },
-              { year: "2025", event: "Research Intern — Digital Twin (Taiwan)",           color: "#4fc1ff" },
               { year: "2026", event: "Graduating — Seeking Full-Time Role",              color: "#ce9178" },
+              { year: "2025", event: "Research Intern — Digital Twin (Taiwan)",           color: "#4fc1ff" },
+              { year: "2025", event: "Software Mentor at Tessat Space (Startup)",        color: "#6a9955" },
+              { year: "2024", event: "Research Intern at National Chung Cheng University", color: "#dcdcaa" },
+              { year: "2023", event: "Chief Marketing Officer at IEDC@Saintgits",       color: "#c586c0" },
+              { year: "2021", event: "Started Integrated MCA at Saintgits College of Engineering", color: "#4fc1ff" },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3 mb-3 last:mb-0">
-                <div className="w-2 h-2 rounded-full shrink-0 -ml-5" style={{ backgroundColor: item.color }} />
+                <div className="relative z-10 w-2 h-2 rounded-full shrink-0 -ml-5" style={{ backgroundColor: item.color }} />
                 <span className="text-vscode-muted text-[11px] w-8 shrink-0">{item.year}</span>
                 <span className="text-vscode-text text-xs">{item.event}</span>
               </div>

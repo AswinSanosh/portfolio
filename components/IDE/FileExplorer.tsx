@@ -106,9 +106,12 @@ export default function FileExplorer({ activeFile, openFiles, onFileOpen }: File
                       key={file.id}
                       onClick={() => onFileOpen(file.id)}
                       className={`w-full flex items-center gap-2 pl-8 pr-3 py-1 text-xs transition-colors ${activeFile === file.id
-                          ? "bg-vscode-highlight text-white"
+                          ? "text-white"
                           : "hover:bg-vscode-hover text-vscode-muted hover:text-vscode-text"
                         }`}
+                      style={{ 
+                        backgroundColor: activeFile === file.id ? 'rgba(var(--theme-accent), 0.3)' : '' 
+                      }}
                     >
                       <file.Icon size={13} className="shrink-0" />
                       <span className="flex-1 text-left truncate">{file.name}</span>
@@ -116,7 +119,10 @@ export default function FileExplorer({ activeFile, openFiles, onFileOpen }: File
                         {file.ext}
                       </span>
                       {openFiles.includes(file.id) && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-vscode-blue opacity-80" />
+                        <span 
+                          className="w-1.5 h-1.5 rounded-full opacity-80" 
+                          style={{ backgroundColor: 'rgb(var(--theme-accent))' }}
+                        />
                       )}
                     </button>
                   ))}
