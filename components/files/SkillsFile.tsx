@@ -69,59 +69,59 @@ const TOOL_COLORS: Record<string, string> = {
 
 // Explicit proficiency levels based on resume project usage & expertise
 const LANG_LEVELS: Record<string, number> = {
-  Python: 90, JavaScript: 92, Java: 70, "C++": 72, C: 65,
-  SQL: 80, Dart: 68, "HTML/CSS": 95,
+  Python: 92, JavaScript: 94, Java: 78, "C++": 82, C: 76,
+  SQL: 85, Dart: 78, "HTML/CSS": 95,
 };
 
 const FW_LEVELS: Record<string, number> = {
-  Django: 85, "Django REST Framework": 82, "React.js": 92, "Next.js": 90,
-  "Node.js": 78, "Express.js": 75, NestJS: 68, Flutter: 72,
-  "React Native": 70, "Three.js": 72, "Tailwind CSS": 90,
+  Django: 88, "Django REST Framework": 86, "React.js": 94, "Next.js": 92,
+  "Node.js": 82, "Express.js": 80, NestJS: 78, Flutter: 78,
+  "React Native": 76, "Three.js": 78, "Tailwind CSS": 92,
 };
 
 const AIML_LEVELS: Record<string, number> = {
-  NumPy: 85, Pandas: 82, SciPy: 72, "Scikit-learn": 78,
-  TensorFlow: 75, PyTorch: 80, OpenCV: 82, YOLOv8: 70,
-  "Hugging Face Transformers": 65, MLflow: 62,
+  NumPy: 88, Pandas: 86, SciPy: 78, "Scikit-learn": 82,
+  TensorFlow: 80, PyTorch: 85, OpenCV: 88, YOLOv8: 78,
+  "Hugging Face Transformers": 76, MLflow: 75,
 };
 
 const DB_LEVELS: Record<string, number> = {
-  PostgreSQL: 82, MySQL: 85, MongoDB: 75, SQLite: 72,
-  Firebase: 78, Supabase: 70,
+  PostgreSQL: 86, MySQL: 88, MongoDB: 82, SQLite: 78,
+  Firebase: 84, Supabase: 78,
 };
 
 const TOOL_LEVELS: Record<string, number> = {
-  Git: 90, "VS Code": 92, PyCharm: 78, "Google Colab": 80,
-  Figma: 72, Blender: 65, "Arduino IDE": 68,
+  Git: 92, "VS Code": 95, PyCharm: 84, "Google Colab": 86,
+  Figma: 78, Blender: 76, "Arduino IDE": 78,
 };
 
 const langSkills = portfolioData.skills.languages.map((name) => ({
   name,
-  level: LANG_LEVELS[name] ?? 65,
+  level: LANG_LEVELS[name] ?? 75,
   color: LANG_COLORS[name] ?? "#4fc1ff",
 }));
 
 const fwSkills = portfolioData.skills.frameworks.map((name) => ({
   name,
-  level: FW_LEVELS[name] ?? 65,
+  level: FW_LEVELS[name] ?? 75,
   color: FW_COLORS[name] ?? "#4fc1ff",
 }));
 
 const aimlSkills = portfolioData.skills.ai_ml_data.map((name) => ({
   name,
-  level: AIML_LEVELS[name] ?? 65,
+  level: AIML_LEVELS[name] ?? 75,
   color: AIML_COLORS[name] ?? "#ce9178",
 }));
 
 const dbSkills = portfolioData.skills.databases.map((name) => ({
   name,
-  level: DB_LEVELS[name] ?? 65,
+  level: DB_LEVELS[name] ?? 75,
   color: DB_COLORS[name] ?? "#4fc1ff",
 }));
 
 const toolSkills = portfolioData.skills.tools.map((name) => ({
   name,
-  level: TOOL_LEVELS[name] ?? 65,
+  level: TOOL_LEVELS[name] ?? 75,
   color: TOOL_COLORS[name] ?? "#9cdcfe",
 }));
 
