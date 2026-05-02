@@ -10,6 +10,7 @@ const crumbs: Record<FileId, string[]> = {
   education:  ["portfolio", "education", "degrees.md"],
   contact:    ["portfolio", "contact", "hire-me.ts"],
   github:     ["portfolio", "github", "stats.ts"],
+  "about-site": ["portfolio", "about", "architecture.md"],
 };
 
 const extColor: Record<string, string> = {

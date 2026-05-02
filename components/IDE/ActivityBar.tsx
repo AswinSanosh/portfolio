@@ -1,12 +1,12 @@
 "use client";
 import { motion } from "framer-motion";
-import { Files, Search, GitBranch, Blocks } from "lucide-react";
+import { Files, Search, GitBranch, Blocks, Info } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 
 interface ActivityBarProps {
   activePanel: string;
   onPanelChange: (panel: string) => void;
-  onContactOpen: () => void;
+  onContactOpen: (id: any) => void;
   activeFile: string;
 }
 
@@ -63,11 +63,12 @@ export default function ActivityBar({ activePanel, onPanelChange, onContactOpen,
 
       <div className="flex-1" />
 
+      {/* Profile/Contact Button */}
       <button
-        onClick={onContactOpen}
+        onClick={() => onContactOpen("contact")}
         title={`Open hire-me.ts — Contact ${portfolioData.name.split(" ")[0]}`}
         className={`w-full flex items-center justify-center h-12 relative transition-colors ${activeFile === "contact"
-            ? "text-vscode-text bg-vscode-hover/50"
+            ? "text-vscode-text"
             : "text-vscode-muted hover:text-vscode-blue"
           }`}
       >
@@ -82,6 +83,25 @@ export default function ActivityBar({ activePanel, onPanelChange, onContactOpen,
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
           <circle cx="12" cy="7" r="4" />
         </svg>
+      </button>
+
+      {/* About this Website Button */}
+      <button
+        onClick={() => onContactOpen("about-site")}
+        title="About this Website — architecture.md"
+        className={`w-full flex items-center justify-center h-12 relative transition-colors ${activeFile === "about-site"
+            ? "text-vscode-text"
+            : "text-vscode-muted hover:text-vscode-yellow"
+          }`}
+      >
+        {activeFile === "about-site" && (
+          <motion.div
+            initial={{ opacity: 0, x: -2 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="absolute left-0 top-1 bottom-1 w-0.5 bg-vscode-text rounded-r"
+          />
+        )}
+        <Info size={22} strokeWidth={1.5} />
       </button>
     </motion.div>
   );

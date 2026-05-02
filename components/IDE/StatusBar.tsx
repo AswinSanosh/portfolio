@@ -13,6 +13,7 @@ const fileLang: Record<FileId, string> = {
   education: "Markdown",
   contact: "TypeScript",
   github: "TypeScript",
+  "about-site": "Markdown",
 };
 
 interface StatusBarProps {

@@ -1,6 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, User, Wrench, Code2, Briefcase, GraduationCap, Mail, Github, X } from "lucide-react";
+import { FileText, User, Wrench, Code2, Briefcase, GraduationCap, Mail, Github, X, Info } from "lucide-react";
 import type { FileId } from "./FileExplorer";
 
 const tabMeta: Record<FileId, { name: string; ext: string; color: string; Icon: React.ElementType }> = {
@@ -12,6 +12,7 @@ const tabMeta: Record<FileId, { name: string; ext: string; color: string; Icon: 
   education:  { name: "degrees",     ext: ".md",   color: "#519aba", Icon: GraduationCap },
   contact:    { name: "hire-me",     ext: ".ts",   color: "#c586c0", Icon: Mail          },
   github:     { name: "stats",       ext: ".ts",   color: "#6e40c9", Icon: Github        },
+  "about-site": { name: "architecture", ext: ".md", color: "#4fc1ff", Icon: Info         },
 };
 
 interface TabBarProps {

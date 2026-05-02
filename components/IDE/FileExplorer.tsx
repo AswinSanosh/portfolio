@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText, User, Wrench, Code2, Briefcase, GraduationCap,
-  Mail, Github, Folder, FolderOpen, ChevronRight, ChevronDown,
+  Mail, Github, Folder, FolderOpen, ChevronRight, ChevronDown, Info,
 } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 
@@ -15,7 +15,8 @@ export type FileId =
   | "experience"
   | "education"
   | "contact"
-  | "github";
+  | "github"
+  | "about-site";
 
 interface FileNode {
   id: FileId;
@@ -32,7 +33,10 @@ interface FolderNode {
 
 const structure: FolderNode[] = [
   { name: `${portfolioData.name.toUpperCase().replace(/ /g, "-")}-DEV`, defaultOpen: true, files: [{ id: "readme", name: "README", ext: ".md", Icon: FileText }] },
-  { name: "about", defaultOpen: true, files: [{ id: "about", name: "profile", ext: ".tsx", Icon: User }] },
+  { name: "about", defaultOpen: true, files: [
+    { id: "about", name: "profile", ext: ".tsx", Icon: User },
+    { id: "about-site", name: "architecture", ext: ".md", Icon: Info },
+  ] },
   { name: "skills", defaultOpen: false, files: [{ id: "skills", name: "stack", ext: ".json", Icon: Wrench }] },
   { name: "projects", defaultOpen: false, files: [{ id: "projects", name: "index", ext: ".tsx", Icon: Code2 }] },
   { name: "experience", defaultOpen: false, files: [{ id: "experience", name: "journey", ext: ".md", Icon: Briefcase }] },

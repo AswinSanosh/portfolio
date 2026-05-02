@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, User, Code2, Github, Mail, Terminal as TermIcon, Smartphone, Triangle, Diamond, Flame, Cloud, Database, GitBranch, Package, Tag, CheckCircle, Loader2, Search } from "lucide-react";
+import { FileText, User, Code2, Github, Mail, Terminal as TermIcon, Smartphone, Triangle, Diamond, Flame, Cloud, Database, GitBranch, Package, Tag, CheckCircle, Loader2, Search, Info } from "lucide-react";
 import TitleBar from "./TitleBar";
 import ActivityBar from "./ActivityBar";
 import FileExplorer from "./FileExplorer";
@@ -23,6 +23,7 @@ const MOBILE_NAV: { id: FileId; Icon: React.ElementType; label: string }[] = [
   { id: "projects", Icon: Code2,    label: "Work"    },
   { id: "github",   Icon: Github,   label: "GitHub"  },
   { id: "contact",  Icon: Mail,     label: "Contact" },
+  { id: "about-site", Icon: Info,   label: "Site"    },
 ];
 
 export default function IDELayout() {
@@ -138,9 +139,10 @@ export default function IDELayout() {
     education: portfolioData.education.map(e => `${e.degree} ${e.institution}`).join(" "),
     contact: `${portfolioData.email} ${portfolioData.phone} ${portfolioData.linkedin} ${portfolioData.location}`,
     github: "github stats repositories commits contributions " + portfolioData.github,
+    "about-site": "Next.js Tailwind Framer Motion Nodemailer GitHub API interactive terminal IDE layout",
   };
 
-  const searchResults = (["readme","about","skills","projects","experience","education","contact","github"] as FileId[]).filter(id => {
+  const searchResults = (["readme","about","skills","projects","experience","education","contact","github", "about-site"] as FileId[]).filter(id => {
     if (!searchQuery) return true;
     const content = FILE_CONTENT[id] || "";
     return (
@@ -335,7 +337,7 @@ export default function IDELayout() {
               setActivePanel(p);
               setSidebarVisible(!!p);
             }}
-            onContactOpen={() => openFile("contact")}
+            onContactOpen={(id) => openFile(id)}
             activeFile={activeFile}
           />
         </div>

@@ -17,6 +17,7 @@ const COMMANDS: Record<string, () => string[]> = {
       { cmd: "projects", desc: "Show my projects" },
       { cmd: "experience", desc: "Work history" },
       { cmd: "contact", desc: "How to reach me" },
+      { cmd: "about-site", desc: "Tech stack & features" },
       { cmd: "hire", desc: "Make me an offer 😄" },
       { cmd: "git log", desc: "My commit history" },
       { cmd: `npm install ${name}`, desc: "Install me 📦" },
@@ -100,6 +101,20 @@ const COMMANDS: Record<string, () => string[]> = {
     `📞  Phone   : ${portfolioData.phone}`,
     `💼  LinkedIn: ${portfolioData.linkedin}`,
     `📍  Location: ${portfolioData.location}`,
+  ],
+
+  "about-site": () => [
+    "🚀  Tech Stack & Features",
+    "-------------------------",
+    "→ Framework: Next.js 14 (App Router)",
+    "→ UI: Tailwind CSS + Framer Motion",
+    "→ Backend: Node.js API Routes",
+    "→ Messaging: Nodemailer + Gmail SMTP",
+    "→ Stats: Live GitHub API integration",
+    "→ Themes: Dynamic CSS Variable syncing",
+    "→ Icons: Lucide React",
+    "",
+    "Built with passion for clean code and UX."
   ],
 
   hire: () => [

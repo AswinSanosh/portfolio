@@ -11,6 +11,7 @@ import ExperienceFile from "@/components/files/ExperienceFile";
 import EducationFile from "@/components/files/EducationFile";
 import ContactFile from "@/components/files/ContactFile";
 import GithubFile from "@/components/files/GithubFile";
+import AboutSiteFile from "@/components/files/AboutSiteFile";
 import { useEffect, useRef, useState } from "react";
 
 const fileComponents: Partial<Record<FileId, React.ComponentType>> = {
@@ -21,6 +22,7 @@ const fileComponents: Partial<Record<FileId, React.ComponentType>> = {
   education: EducationFile,
   contact: ContactFile,
   github: GithubFile,
+  "about-site": AboutSiteFile,
 };
 
 interface EditorContentProps {
