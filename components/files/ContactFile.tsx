@@ -22,16 +22,37 @@ export default function ContactFile() {
   const [copied, setCopied] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: "", number: "", email: "", subject: "", message: "" });
 
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
   const copy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     setCopied(label);
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const body = `Name: ${formData.name}\nNumber: ${formData.number || 'N/A'}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
-    window.location.href = `mailto:${portfolioData.email}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(body)}`;
+    setStatus("loading");
+    
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormData({ name: "", number: "", email: "", subject: "", message: "" });
+        setTimeout(() => setStatus("idle"), 5000);
+      } else {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 5000);
+      }
+    } catch (error) {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
+    }
   };
 
   return (
@@ -107,23 +128,37 @@ export default function ContactFile() {
         <div className="font-mono text-xs mb-4 code-comment">{`// Or send a direct message:`}</div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input required type="text" placeholder="Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors font-mono placeholder:text-vscode-muted/50 w-full" />
-            <input type="text" placeholder="Phone Number (Optional)" value={formData.number} onChange={e => setFormData({...formData, number: e.target.value})} className="bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors font-mono placeholder:text-vscode-muted/50 w-full" />
+            <input required type="text" placeholder="Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors font-mono placeholder:text-vscode-muted/50 w-full disabled:opacity-50" disabled={status === "loading"} />
+            <input type="text" placeholder="Phone Number (Optional)" value={formData.number} onChange={e => setFormData({...formData, number: e.target.value})} className="bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors font-mono placeholder:text-vscode-muted/50 w-full disabled:opacity-50" disabled={status === "loading"} />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input required type="email" placeholder="Email Address" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors font-mono placeholder:text-vscode-muted/50 w-full" />
-            <input required type="text" placeholder="Subject" value={formData.subject} onChange={e => setFormData({...formData, subject: e.target.value})} className="bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors font-mono placeholder:text-vscode-muted/50 w-full" />
+            <input required type="email" placeholder="Email Address" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors font-mono placeholder:text-vscode-muted/50 w-full disabled:opacity-50" disabled={status === "loading"} />
+            <input required type="text" placeholder="Subject" value={formData.subject} onChange={e => setFormData({...formData, subject: e.target.value})} className="bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors font-mono placeholder:text-vscode-muted/50 w-full disabled:opacity-50" disabled={status === "loading"} />
           </div>
-          <textarea required placeholder="Write your message here..." rows={4} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} className="w-full bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors resize-y font-mono placeholder:text-vscode-muted/50" />
+          <textarea required placeholder="Write your message here..." rows={4} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} className="w-full bg-vscode-bg border border-vscode-border rounded p-2.5 text-xs text-vscode-text outline-none focus:border-vscode-blue transition-colors resize-y font-mono placeholder:text-vscode-muted/50 disabled:opacity-50" disabled={status === "loading"} />
           
           <button
             type="submit"
-            className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded bg-[#238636] text-white font-medium text-[11px] uppercase tracking-wider hover:bg-[#2ea043] transition-colors shadow-sm"
+            disabled={status === "loading"}
+            className={`flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded font-medium text-[11px] uppercase tracking-wider transition-all shadow-sm ${
+              status === "loading" ? "bg-vscode-hover text-vscode-muted cursor-not-allowed" :
+              status === "success" ? "bg-vscode-green text-white" :
+              status === "error" ? "bg-vscode-error text-white" :
+              "bg-[#238636] text-white hover:bg-[#2ea043]"
+            }`}
           >
-            <Send size={14} className="shrink-0" />
-            Send Message
+            {status === "loading" ? (
+              <div className="w-4 h-4 border-2 border-vscode-muted border-t-transparent rounded-full animate-spin" />
+            ) : status === "success" ? (
+              <><Check size={14} className="shrink-0" /> Message Sent!</>
+            ) : status === "error" ? (
+              "Failed to Send"
+            ) : (
+              <><Send size={14} className="shrink-0" /> Send Message</>
+            )}
           </button>
         </form>
+
       </motion.div>
     </div>
   );
