@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Files, Search, GitBranch, Blocks, Info } from "lucide-react";
+import { Files, Search, GitBranch, Blocks, Info, Bot } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 
 interface ActivityBarProps {
@@ -30,6 +30,11 @@ const activities = [
     id: "extensions",
     title: "Extensions — tech stack",
     icon: <Blocks size={24} strokeWidth={1.5} />,
+  },
+  {
+    id: "chat",
+    title: "Copilot Chat — ask about me",
+    icon: <Bot size={24} strokeWidth={1.5} />,
   },
 ];
 

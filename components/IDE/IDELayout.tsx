@@ -1,7 +1,7 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, User, Code2, Github, Mail, Terminal as TermIcon, Smartphone, Triangle, Diamond, Flame, Cloud, Database, GitBranch, Package, Tag, CheckCircle, Loader2, Search, Info } from "lucide-react";
+import { FileText, User, Code2, Github, Mail, Terminal as TermIcon, Smartphone, Triangle, Diamond, Flame, Cloud, Database, GitBranch, Package, Tag, CheckCircle, Loader2, Search, Info, MessageSquare, Bot } from "lucide-react";
 import TitleBar from "./TitleBar";
 import ActivityBar from "./ActivityBar";
 import FileExplorer from "./FileExplorer";
@@ -15,6 +15,8 @@ import CommandPalette from "./CommandPalette";
 import HireMeButton from "./HireMeButton";
 import Toast from "./Toast";
 import ShortcutsModal from "./ShortcutsModal";
+import ChatPanel from "./ChatPanel";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { portfolioData } from "@/data/portfolio";
 
 const MOBILE_NAV: { id: FileId; Icon: React.ElementType; label: string }[] = [
@@ -26,9 +28,14 @@ const MOBILE_NAV: { id: FileId; Icon: React.ElementType; label: string }[] = [
   { id: "about-site", Icon: Info,   label: "Site"    },
 ];
 
-export default function IDELayout() {
+function IDELayoutContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  
   const [activePanel, setActivePanel]       = useState("explorer");
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [chatOpen, setChatOpen]             = useState(false);
   const [openFiles, setOpenFiles]           = useState<FileId[]>(["readme"]);
   const [activeFile, setActiveFile]         = useState<FileId>("readme");
   const [terminalOpen, setTerminalOpen]     = useState(false);
@@ -40,19 +47,45 @@ export default function IDELayout() {
   const [gitInfo, setGitInfo]               = useState<{ branch: string; commits: number | null; tag: string | null; repo: string | null; status: string } | null>(null);
   const [sidebarWidth, setSidebarWidth]     = useState(260);
   const [terminalHeight, setTerminalHeight] = useState(200);
+  const [chatWidth, setChatWidth]           = useState(350);
   const [isResizingSidebar, setIsResizingSidebar] = useState(false);
   const [isResizingTerminal, setIsResizingTerminal] = useState(false);
+  const [isResizingChat, setIsResizingChat]         = useState(false);
+
+  // Sync state with URL on mount
+  useEffect(() => {
+    const fileParam = searchParams.get("file") as FileId;
+    const validFiles = ["readme", "about", "skills", "projects", "experience", "education", "contact", "github", "about-site"];
+    if (fileParam && validFiles.includes(fileParam)) {
+      setOpenFiles((prev) => (prev.includes(fileParam) ? prev : [...prev, fileParam]));
+      setActiveFile(fileParam);
+    }
+  }, []);
+
+  // Sync URL with activeFile
+  useEffect(() => {
+    if (!activeFile) return;
+    const params = new URLSearchParams(searchParams.toString());
+    if (params.get("file") !== activeFile) {
+      params.set("file", activeFile);
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    }
+  }, [activeFile, router, pathname, searchParams]);
 
   useEffect(() => {
     fetch("/api/git").then(r => r.json()).then(setGitInfo).catch(() => {});
   }, []);
 
   const openFile = useCallback((id: FileId) => {
+    if ((id as string) === "chat" && typeof window !== 'undefined' && window.innerWidth < 1024) {
+      router.push("/chat");
+      return;
+    }
     setOpenFiles((prev) => (prev.includes(id) ? prev : [...prev, id]));
     setActiveFile(id);
     setDrawerOpen(false);
     setSidebarVisible(true);
-  }, []);
+  }, [router]);
 
   const closeFile = (id: FileId) => {
     const next = openFiles.filter((f) => f !== id);
@@ -112,7 +145,7 @@ export default function IDELayout() {
     const handleMove = (e: MouseEvent | TouchEvent) => {
       if (e instanceof TouchEvent && e.cancelable) e.preventDefault();
       const clientY = 'touches' in e ? e.touches[0].clientY : (e as MouseEvent).clientY;
-      const newHeight = Math.max(40, Math.min(window.innerHeight - 150, window.innerHeight - clientY - 60)); // Adjusted for mobile bottom nav
+      const newHeight = Math.max(40, Math.min(window.innerHeight - 150, window.innerHeight - clientY - 60)); 
       setTerminalHeight(newHeight);
     };
     const handleEnd = () => setIsResizingTerminal(false);
@@ -129,6 +162,22 @@ export default function IDELayout() {
       window.removeEventListener("touchend", handleEnd);
     };
   }, [isResizingTerminal]);
+
+  useEffect(() => {
+    if (!isResizingChat) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      const clientX = e.clientX;
+      const newWidth = Math.max(250, Math.min(800, window.innerWidth - clientX));
+      setChatWidth(newWidth);
+    };
+    const handleMouseUp = () => setIsResizingChat(false);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isResizingChat]);
 
   const FILE_CONTENT: Record<FileId, string> = {
     readme: portfolioData.summary + portfolioData.tagline,
@@ -311,29 +360,43 @@ export default function IDELayout() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
       className={`fixed inset-0 flex flex-col overflow-hidden bg-vscode-bg ${
-        isResizingSidebar || isResizingTerminal ? "select-none" : ""
-      } ${isResizingSidebar ? "cursor-col-resize" : ""} ${
+        isResizingSidebar || isResizingTerminal || isResizingChat ? "select-none" : ""
+      } ${isResizingSidebar || isResizingChat ? "cursor-col-resize" : ""} ${
         isResizingTerminal ? "cursor-row-resize" : ""
       }`}
     >
-      <TitleBar
-        onCommandPalette={() => setPaletteOpen(true)}
-        onCloseTab={closeActiveTab}
-        onToggleSidebar={() => setSidebarVisible((p) => {
-          if (!p) setActivePanel("explorer");
-          return !p;
-        })}
-        onToggleTerminal={() => setTerminalOpen((p) => !p)}
-        onMobileMenu={() => setDrawerOpen((p) => !p)}
-        onOpenShortcuts={() => setShortcutsOpen(true)}
-      />
+        <TitleBar
+          onCommandPalette={() => setPaletteOpen(true)}
+          onCloseTab={closeActiveTab}
+          onToggleSidebar={() => setSidebarVisible((p) => {
+            if (!p) setActivePanel("explorer");
+            return !p;
+          })}
+          onToggleTerminal={() => setTerminalOpen((p) => !p)}
+          onMobileMenu={() => setDrawerOpen((p) => !p)}
+          onOpenShortcuts={() => setShortcutsOpen(true)}
+          onChat={() => {
+            if (window.innerWidth < 1024) {
+              router.push("/chat");
+            } else {
+              setChatOpen(!chatOpen);
+            }
+          }}
+        />
 
       <div className="flex flex-1 overflow-hidden min-h-0 relative">
-        {/* Activity bar — desktop only */}
         <div className="hidden md:block shrink-0">
           <ActivityBar
             activePanel={activePanel}
             onPanelChange={(p) => {
+              if (p === "chat") {
+                if (window.innerWidth < 1024) {
+                  router.push("/chat");
+                  return;
+                }
+                setChatOpen(!chatOpen);
+                return;
+              }
               setActivePanel(p);
               setSidebarVisible(!!p);
             }}
@@ -342,14 +405,12 @@ export default function IDELayout() {
           />
         </div>
 
-        {/* Desktop sidebar panels */}
         {sidebarVisible && (
           <div className="hidden md:flex shrink-0" style={{ width: sidebarWidth }}>
             {sidebarPanelContent}
           </div>
         )}
 
-        {/* Sidebar resizer */}
         {sidebarVisible && (
           <div
             onMouseDown={() => setIsResizingSidebar(true)}
@@ -357,7 +418,6 @@ export default function IDELayout() {
           />
         )}
 
-        {/* Mobile drawer overlay */}
         <AnimatePresence>
           {drawerOpen && (
             <>
@@ -390,7 +450,6 @@ export default function IDELayout() {
           )}
         </AnimatePresence>
 
-        {/* Main editor column */}
         <div className="flex-1 flex flex-col overflow-hidden min-w-0">
           {openFiles.length > 0 && (
             <>
@@ -404,7 +463,6 @@ export default function IDELayout() {
             <HireMeButton onOpenContact={() => openFile("contact")} terminalOpen={terminalOpen} />
           </div>
           
-          {/* Terminal resizer */}
           {terminalOpen && (
             <div
               onMouseDown={() => setIsResizingTerminal(true)}
@@ -415,9 +473,20 @@ export default function IDELayout() {
           
           <Terminal isOpen={terminalOpen} onToggle={() => setTerminalOpen((p) => !p)} height={terminalHeight} />
         </div>
+
+        <AnimatePresence>
+          {chatOpen && (
+            <>
+              <div
+                onMouseDown={() => setIsResizingChat(true)}
+                className={`hidden md:block w-[2px] hover:w-[4px] bg-vscode-border hover:bg-vscode-blue cursor-col-resize z-50 transition-all ${isResizingChat ? "bg-vscode-blue w-[4px]" : ""}`}
+              />
+              <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} width={chatWidth} />
+            </>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Mobile bottom navigation bar */}
       <div className="lg:hidden shrink-0 flex items-center justify-around h-14 bg-vscode-sidebar border-t border-vscode-border z-20 pb-safe">
         {MOBILE_NAV.map((item) => (
           <button
@@ -447,12 +516,19 @@ export default function IDELayout() {
       <CommandPalette isOpen={paletteOpen} onClose={() => setPaletteOpen(false)} onOpen={openFile} />
       <ShortcutsModal isOpen={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
 
-      {/* Screen-centered Toast positioned above terminal */}
       <Toast 
         message={toast} 
         onClose={() => setToast(null)} 
         bottomOffset={24 + (typeof window !== 'undefined' && window.innerWidth < 1024 ? 56 : 0) + (terminalOpen ? terminalHeight : 32) + 16}
       />
     </motion.div>
+  );
+}
+
+export default function IDELayout() {
+  return (
+    <Suspense fallback={<div className="fixed inset-0 bg-vscode-bg flex items-center justify-center text-vscode-muted">Loading IDE...</div>}>
+      <IDELayoutContent />
+    </Suspense>
   );
 }

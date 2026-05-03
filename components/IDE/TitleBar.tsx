@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
+import { Bot } from "lucide-react";
 
 interface TitleBarProps {
   onCommandPalette: () => void;
@@ -9,6 +10,7 @@ interface TitleBarProps {
   onToggleTerminal: () => void;
   onMobileMenu: () => void;
   onOpenShortcuts: () => void;
+  onChat: () => void;
 }
 
 export default function TitleBar({
@@ -18,6 +20,7 @@ export default function TitleBar({
   onToggleTerminal,
   onMobileMenu,
   onOpenShortcuts,
+  onChat,
 }: TitleBarProps) {
   const downloadResume = () => {
     const a = document.createElement("a");
@@ -127,6 +130,14 @@ export default function TitleBar({
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
           Resume
+        </button>
+
+        <button
+          onClick={onChat}
+          className="sm:hidden flex items-center justify-center w-8 h-8 rounded text-vscode-yellow hover:bg-vscode-yellow/10 transition-all active:scale-90"
+          title="AI Chat"
+        >
+          <Bot size={18} />
         </button>
 
         <button
