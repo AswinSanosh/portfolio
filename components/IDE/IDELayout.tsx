@@ -62,6 +62,31 @@ function IDELayoutContent() {
     }
   }, []);
 
+  // Sync chatOpen state with URL params
+  useEffect(() => {
+    setChatOpen(searchParams.get("chat") === "true");
+  }, [searchParams]);
+
+  const openChat = useCallback(() => {
+    if (!chatOpen) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("chat", "true");
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    }
+  }, [chatOpen, router, pathname, searchParams]);
+
+  const closeChat = useCallback(() => {
+    if (chatOpen) {
+      if (window.history.length > 2) {
+        router.back();
+      } else {
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete("chat");
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+      }
+    }
+  }, [chatOpen, router, pathname, searchParams]);
+
   // Sync URL with activeFile
   useEffect(() => {
     if (!activeFile) return;
@@ -78,7 +103,7 @@ function IDELayoutContent() {
 
   const openFile = useCallback((id: FileId) => {
     if ((id as string) === "chat") {
-      setChatOpen(true);
+      openChat();
       return;
     }
     setOpenFiles((prev) => (prev.includes(id) ? prev : [...prev, id]));
@@ -376,7 +401,8 @@ function IDELayoutContent() {
           onMobileMenu={() => setDrawerOpen((p) => !p)}
           onOpenShortcuts={() => setShortcutsOpen(true)}
           onChat={() => {
-            setChatOpen(!chatOpen);
+            if (chatOpen) closeChat();
+            else openChat();
           }}
         />
 
@@ -386,7 +412,8 @@ function IDELayoutContent() {
             activePanel={activePanel}
             onPanelChange={(p) => {
               if (p === "chat") {
-                setChatOpen(!chatOpen);
+                if (chatOpen) closeChat();
+                else openChat();
                 return;
               }
               setActivePanel(p);
@@ -473,7 +500,7 @@ function IDELayoutContent() {
                 onMouseDown={() => setIsResizingChat(true)}
                 className={`hidden md:block w-[2px] hover:w-[4px] bg-vscode-border hover:bg-vscode-blue cursor-col-resize z-50 transition-all ${isResizingChat ? "bg-vscode-blue w-[4px]" : ""}`}
               />
-              <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} width={chatWidth} />
+              <ChatPanel isOpen={chatOpen} onClose={closeChat} width={chatWidth} />
             </>
           )}
         </AnimatePresence>

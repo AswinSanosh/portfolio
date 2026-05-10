@@ -33,6 +33,18 @@ export const portfolioData = {
 
   projects: [
     {
+      id: "trueseal",
+      name: "TrueSeal",
+      subtitle: "Verified Resume & Hiring Platform",
+      description: "A comprehensive platform to verify resumes, create professional profiles, conduct interviews with AI, and apply for jobs efficiently.",
+      tech: ["Next.js", "React.js", "AI/ML", "TypeScript"],
+      highlight: true,
+      icon: "📜",
+      link: "https://trueseal.in",
+      color: "#f97316",
+      category: "Web Applications",
+    },
+    {
       id: "flood-twin",
       name: "Digital Twin for Flood Inundation (Physics-Informed AI)",
       subtitle: "Real-time flood prediction system",
@@ -41,7 +53,9 @@ export const portfolioData = {
       tech: ["Python", "PyTorch", "Graph Neural Networks", "HEC-RAS"],
       highlight: true,
       icon: "🌊",
+      link: "https://github.com/AswinSanosh/FLOOD",
       color: "#4fc1ff",
+      category: "AI & Computer Vision",
     },
     {
       id: "stock-prediction",
@@ -53,6 +67,7 @@ export const portfolioData = {
       highlight: true,
       icon: "📈",
       color: "#dcdcaa",
+      category: "Web Applications",
     },
     {
       id: "body-shape",
@@ -62,8 +77,10 @@ export const portfolioData = {
         "Developed an AI-based body shape classification system using pose estimation, body geometry extraction, and anthropometric analysis for fit recommendations.",
       tech: ["Python", "OpenCV", "OpenPose", "Shapy AI"],
       highlight: false,
+      link: "https://github.com/AswinSanosh/chic2",
       icon: "🧍",
       color: "#6a9955",
+      category: "AI & Computer Vision",
     },
     {
       id: "gpr-image",
@@ -73,8 +90,10 @@ export const portfolioData = {
         "Designed an unsupervised learning pipeline to classify road-distress patterns from GPR imagery for subsurface damage analysis. Combined feature extraction using DINOv3 and CNN backbones with clustering methods such as DBSCAN, BIRCH, and K-Means.",
       tech: ["Python", "Keras", "DINOv3", "DBSCAN", "BIRCH", "K-Means"],
       highlight: false,
+      link: "https://github.com/AswinSanosh/GPR-FINAL",
       icon: "🛣️",
       color: "#ce9178",
+      category: "AI & Computer Vision",
     },
     {
       id: "industrial-tool",
@@ -84,8 +103,10 @@ export const portfolioData = {
         "Built a real-time industrial tool classification system using HOG and Hu Moments in OpenCV for manufacturing and inspection workflows.",
       tech: ["C++", "OpenCV", "HOG", "Hu Moments"],
       highlight: false,
+      link: "https://github.com/AswinSanosh/HOG-SVG",
       icon: "🔧",
       color: "#c586c0",
+      category: "AI & Computer Vision",
     },
     {
       id: "bus-tracking",
@@ -96,7 +117,9 @@ export const portfolioData = {
       tech: ["Next.js", "IoT", "GPS"],
       highlight: false,
       icon: "🚌",
+      link: "https://github.com/AswinSanosh/bus_tracker",
       color: "#9cdcfe",
+      category: "IoT & Hardware",
     },
     {
       id: "samyuktha",
@@ -107,7 +130,9 @@ export const portfolioData = {
       tech: ["Next.js", "Redux", "Tailwind CSS", "MySQL"],
       highlight: false,
       icon: "🎉",
+      link: "https://github.com/AswinSanosh/Samyukta2k25",
       color: "#dcdcaa",
+      category: "Web Applications",
     },
     {
       id: "cansat",
@@ -118,7 +143,9 @@ export const portfolioData = {
       tech: ["Django", "React.js", "MySQL", "ESP32", "IoT"],
       highlight: false,
       icon: "🛰️",
+      link: "https://github.com/AswinSanosh/CANSAT",
       color: "#4fc1ff",
+      category: "IoT & Hardware",
     },
     {
       id: "helekin",
@@ -129,7 +156,9 @@ export const portfolioData = {
       tech: ["Next.js", "Three.js", "MySQL"],
       highlight: false,
       icon: "🖨️",
+      link: "https://helekin.in",
       color: "#6a9955",
+      category: "Web Applications",
     },
     {
       id: "redwills",
@@ -140,8 +169,11 @@ export const portfolioData = {
       tech: ["Next.js", "Three.js", "WebGL"],
       highlight: false,
       icon: "🎮",
+      link: "https://redwills.com",
       color: "#ce9178",
+      category: "Web Applications",
     },
+
   ],
 
   experience: [
