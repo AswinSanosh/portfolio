@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
-import { Terminal, Sidebar, Command, Search, ArrowRight, Keyboard, Code2 } from "lucide-react";
+import { Terminal, Sidebar, Command, Search, ArrowRight, Keyboard, Code2, Sparkles } from "lucide-react";
 
 const SHORTCUTS = [
   { label: "Command Palette", keys: ["Ctrl", "K"], Icon: Search },
   { label: "Toggle Terminal", keys: ["Ctrl", "`"], Icon: Terminal },
   { label: "Toggle Sidebar", keys: ["Ctrl", "B"], Icon: Sidebar },
+  { label: "AI Portfolio Chat", keys: ["Ctrl", "I"], Icon: Sparkles },
+  { label: "Navigate Lists",   keys: ["↑", "↓"],     Icon: Keyboard },
+  { label: "Run / Select",     keys: ["Enter"],      Icon: Command },
 ];
 
 export default function BootScreen({ onComplete }: { onComplete: () => void }) {

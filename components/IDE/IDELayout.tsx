@@ -136,12 +136,16 @@ function IDELayoutContent() {
             if (!p) setActivePanel("explorer");
             return !p;
           });
+        } else if (e.key === "i" || e.key === "I") {
+          e.preventDefault();
+          if (chatOpen) closeChat();
+          else openChat();
         }
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, [chatOpen, openChat, closeChat]);
 
   useEffect(() => {
     const t = setTimeout(() => setToast("Welcome! Type 'help' in terminal or press Ctrl+K"), 1200);

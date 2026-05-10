@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Keyboard, Terminal as TermIcon, Sidebar, Command, Search } from "lucide-react";
+import { Keyboard, Terminal as TermIcon, Sidebar, Command, Search, Sparkles } from "lucide-react";
 
 interface ShortcutsModalProps {
   isOpen: boolean;
@@ -24,6 +24,7 @@ export default function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps)
     { label: "Command Palette", keys: ["Ctrl", "K"], Icon: Search },
     { label: "Toggle Terminal", keys: ["Ctrl", "`"], Icon: TermIcon },
     { label: "Toggle Sidebar", keys: ["Ctrl", "B"], Icon: Sidebar },
+    { label: "AI Portfolio Chat", keys: ["Ctrl", "I"], Icon: Sparkles },
     { label: "Navigate Lists", keys: ["↑", "↓"], Icon: Keyboard },
     { label: "Run / Select", keys: ["Enter"], Icon: Command },
   ];
