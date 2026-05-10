@@ -1,7 +1,7 @@
 "use client";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { motion, useMotionValue, useTransform, animate, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { User, Wrench, Code2, Briefcase, GraduationCap, Mail, MapPin, CheckCircle } from "lucide-react";
+import { User, Wrench, Code2, Briefcase, GraduationCap, Mail, MapPin, CheckCircle, X, Search } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 import type { FileId } from "@/components/IDE/FileExplorer";
 
@@ -39,6 +39,7 @@ function AnimatedCounter({ to, suffix = "" }: { to: number; suffix?: string }) {
 }
 
 export default function AboutFile({ onNavigate }: { onNavigate?: (id: FileId) => void }) {
+  const [showImageModal, setShowImageModal] = useState(false);
   return (
     <div className="p-4 sm:p-6 md:p-8 max-w-4xl mx-auto space-y-8 text-sm pb-12">
       <motion.div variants={fadeUp} custom={0} initial="hidden" animate="show" className="font-mono text-xs space-y-1">
@@ -49,8 +50,14 @@ export default function AboutFile({ onNavigate }: { onNavigate?: (id: FileId) =>
 
       <motion.div variants={fadeUp} custom={1} initial="hidden" animate="show" className="pl-6 space-y-6 border-l-2 border-vscode-blue/30">
         <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
-          <div className="w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden shrink-0 shadow-lg shadow-blue-500/20">
+          <div 
+            onClick={() => setShowImageModal(true)}
+            className="w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden shrink-0 shadow-lg shadow-blue-500/20 cursor-pointer group relative"
+          >
             <img src="/photo.jpg" alt="Profile" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-vscode-blue/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <Search size={24} className="text-white" />
+            </div>
           </div>
           <div className="space-y-2">
             <div className="text-3xl font-bold text-vscode-blue glow-blue">
@@ -167,6 +174,38 @@ export default function AboutFile({ onNavigate }: { onNavigate?: (id: FileId) =>
         <div><span className="code-operator">{"}"}</span>;</div>
         <div><span className="code-keyword">export default </span><span className="code-variable">{portfolioData.name.toLowerCase().split(" ")[0]}</span>;</div>
       </motion.div>
+
+      <AnimatePresence>
+        {showImageModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowImageModal(false)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative max-w-lg w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src="/photo.jpg"
+                alt="Profile Large"
+                className="w-full h-auto rounded-2xl shadow-2xl border border-vscode-border"
+              />
+              <button
+                onClick={() => setShowImageModal(false)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
