@@ -56,21 +56,69 @@ function WelcomeScreen() {
 
 export default function EditorContent({ activeFile, openFiles, onNavigate }: EditorContentProps) {
   const contentRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [lineCount, setLineCount] = useState(10);
+  const [scrollPositions, setScrollPositions] = useState<Record<string, number>>({});
+  const prevActiveFileRef = useRef<FileId>(activeFile);
 
+  // Update line count
   useEffect(() => {
     if (!contentRef.current) return;
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        // Line height is 20px (leading-5)
         const newCount = Math.max(1, Math.ceil(entry.target.scrollHeight / 20));
-        // Prevent infinite loop by checking if we really need to update
         setLineCount((prev) => (prev !== newCount ? newCount : prev));
       }
     });
     observer.observe(contentRef.current);
     return () => observer.disconnect();
   }, [activeFile]);
+
+  // Handle scroll persistence
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    // Save current scroll of previous file before switching
+    const prevFile = prevActiveFileRef.current;
+    if (prevFile && prevFile !== activeFile) {
+      setScrollPositions(prev => ({
+        ...prev,
+        [prevFile]: container.scrollTop
+      }));
+    }
+
+    // Restore scroll of new file
+    const targetScroll = scrollPositions[activeFile] || 0;
+    container.scrollTop = targetScroll;
+    
+    prevActiveFileRef.current = activeFile;
+  }, [activeFile]);
+
+  // Reset scroll for closed files
+  useEffect(() => {
+    setScrollPositions(prev => {
+      const next = { ...prev };
+      let changed = false;
+      Object.keys(next).forEach(id => {
+        if (!openFiles.includes(id as FileId)) {
+          if (next[id] !== 0) {
+            next[id] = 0;
+            changed = true;
+          }
+        }
+      });
+      return changed ? next : prev;
+    });
+  }, [openFiles]);
+
+  // Capture scroll on manual scroll to keep positions sync
+  const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const scrollTop = e.currentTarget.scrollTop;
+    // We update the state to keep it in sync, though we primarily use it on switch
+    // To avoid too many renders, we could also just save on switch
+    // but saving on scroll ensures if the component re-renders for other reasons, it stays correct.
+  };
 
   if (openFiles.length === 0) {
     return (
@@ -87,7 +135,14 @@ export default function EditorContent({ activeFile, openFiles, onNavigate }: Edi
   };
 
   return (
-    <div className="flex-1 overflow-y-auto bg-vscode-bg">
+    <div 
+      ref={scrollContainerRef}
+      className="flex-1 overflow-y-auto bg-vscode-bg"
+      onScroll={(e) => {
+        const scrollTop = e.currentTarget.scrollTop;
+        setScrollPositions(prev => ({ ...prev, [activeFile]: scrollTop }));
+      }}
+    >
       <div className="min-h-full flex">
         <div className="flex flex-col text-right pt-4 sm:pt-6 md:pt-8 px-0 select-none shrink-0">
           {Array.from({ length: lineCount }, (_, i) => (

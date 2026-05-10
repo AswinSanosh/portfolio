@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
-import { Terminal, Sidebar, Command, Search, ArrowRight, Keyboard } from "lucide-react";
+import { Terminal, Sidebar, Command, Search, ArrowRight, Keyboard, Code2 } from "lucide-react";
 
 const SHORTCUTS = [
   { label: "Command Palette", keys: ["Ctrl", "K"], Icon: Search },
@@ -59,7 +59,7 @@ export default function BootScreen({ onComplete }: { onComplete: () => void }) {
             >
               <div className="flex justify-center mb-6">
                  <div className="w-16 h-16 rounded-2xl bg-vscode-blue flex items-center justify-center shadow-2xl shadow-blue-500/20">
-                    <Command size={32} className="text-white" />
+                    <Code2 size={32} className="text-white" />
                  </div>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
