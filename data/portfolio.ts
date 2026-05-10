@@ -155,7 +155,7 @@ export const portfolioData = {
         "Built a 3D-printing e-commerce platform with interactive model customization, order tracking, and product management workflows.",
       tech: ["Next.js", "Three.js", "MySQL"],
       highlight: false,
-      icon: "🖨️",
+      icon: "🧊",
       link: "https://helekin.in",
       color: "#6a9955",
       category: "Web Applications",
@@ -166,7 +166,7 @@ export const portfolioData = {
       subtitle: "3D interactive portfolio for game studio",
       description:
         "Developed an immersive studio website with interactive 3D visuals and a narrative-driven experience aligned with gaming aesthetics.",
-      tech: ["Next.js", "Three.js", "WebGL"],
+      tech: ["Next.js", "WebGL"],
       highlight: false,
       icon: "🎮",
       link: "https://redwills.com",
