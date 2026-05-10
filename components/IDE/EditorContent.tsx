@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Code2, User } from "lucide-react";
 import type { FileId } from "./FileExplorer";
 import { portfolioData } from "@/data/portfolio";
-import ReadmeFile from "@/components/files/ReadmeFile";
+
 import AboutFile from "@/components/files/AboutFile";
 import SkillsFile from "@/components/files/SkillsFile";
 import ProjectsFile from "@/components/files/ProjectsFile";
@@ -14,7 +14,7 @@ import GithubFile from "@/components/files/GithubFile";
 import AboutSiteFile from "@/components/files/AboutSiteFile";
 import { useEffect, useRef, useState } from "react";
 
-const fileComponents: Partial<Record<FileId, React.ComponentType>> = {
+const fileComponents: Partial<Record<FileId, React.ComponentType<{ onNavigate?: (id: FileId) => void }>>> = {
   about: AboutFile,
   skills: SkillsFile,
   projects: ProjectsFile,
@@ -81,10 +81,9 @@ export default function EditorContent({ activeFile, openFiles, onNavigate }: Edi
   }
 
   const renderContent = () => {
-    if (activeFile === "readme") return <ReadmeFile onNavigate={onNavigate} />;
     const Component = fileComponents[activeFile];
     if (!Component) return null;
-    return <Component />;
+    return <Component onNavigate={onNavigate} />;
   };
 
   return (

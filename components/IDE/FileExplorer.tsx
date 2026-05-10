@@ -8,7 +8,6 @@ import {
 import { portfolioData } from "@/data/portfolio";
 
 export type FileId =
-  | "readme"
   | "about"
   | "skills"
   | "projects"
@@ -32,9 +31,8 @@ interface FolderNode {
 }
 
 const structure: FolderNode[] = [
-  { name: `${portfolioData.name.toUpperCase().replace(/ /g, "-")}-DEV`, defaultOpen: true, files: [{ id: "readme", name: "README", ext: ".md", Icon: FileText }] },
+  { name: `${portfolioData.name.toUpperCase().replace(/ /g, "-")}-DEV`, defaultOpen: true, files: [{ id: "about", name: "profile", ext: ".tsx", Icon: User }] },
   { name: "about", defaultOpen: true, files: [
-    { id: "about", name: "profile", ext: ".tsx", Icon: User },
     { id: "about-site", name: "architecture", ext: ".md", Icon: Info },
   ] },
   { name: "skills", defaultOpen: false, files: [{ id: "skills", name: "stack", ext: ".json", Icon: Wrench }] },
@@ -109,12 +107,12 @@ export default function FileExplorer({ activeFile, openFiles, onFileOpen }: File
                     <button
                       key={file.id}
                       onClick={() => onFileOpen(file.id)}
-                      className={`w-full flex items-center gap-2 pl-8 pr-3 py-1 text-xs transition-colors ${activeFile === file.id
+                      className={`w-full flex items-center gap-2 pl-8 pr-3 py-1 text-xs transition-colors ${(activeFile === file.id && openFiles.includes(file.id))
                           ? "text-white"
                           : "hover:bg-vscode-hover text-vscode-muted hover:text-vscode-text"
                         }`}
                       style={{ 
-                        backgroundColor: activeFile === file.id ? 'rgba(var(--theme-accent), 0.3)' : '' 
+                        backgroundColor: (activeFile === file.id && openFiles.includes(file.id)) ? 'rgba(var(--theme-accent), 0.3)' : '' 
                       }}
                     >
                       <file.Icon size={13} className="shrink-0" />

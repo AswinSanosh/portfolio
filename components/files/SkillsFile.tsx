@@ -18,20 +18,30 @@ function SkillBar({ name, level, color, delay }: SkillBarProps) {
   }, [level, delay]);
 
   return (
-    <div className="space-y-1">
-      <div className="flex justify-between text-xs">
-        <span className="text-vscode-cyan">{name}</span>
-        <span className="text-vscode-muted">{level}%</span>
+    <div className="flex items-center gap-3 group py-1">
+      <div className="w-32 sm:w-48 text-[11px] sm:text-xs text-vscode-cyan font-mono truncate group-hover:text-white transition-colors">
+        <span className="text-vscode-muted mr-0.5">&quot;</span>
+        {name}
+        <span className="text-vscode-muted ml-0.5">&quot;:</span>
       </div>
-      <div className="h-1.5 bg-vscode-border rounded-full overflow-hidden">
-        <motion.div
-          className="h-full rounded-full"
-          style={{ backgroundColor: color }}
-          initial={{ width: 0 }}
-          animate={{ width: `${width}%` }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        />
+      <div className="flex-1 flex items-center gap-4">
+        <div className="flex-1 h-1.5 sm:h-2 bg-[#1e1e1e] border border-vscode-border/50 rounded-full overflow-hidden relative">
+          <motion.div
+            className="absolute top-0 left-0 bottom-0 rounded-full"
+            style={{ 
+              backgroundColor: color,
+              boxShadow: `0 0 8px ${color}80` 
+            }}
+            initial={{ width: 0 }}
+            animate={{ width: `${width}%` }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          />
+        </div>
+        <div className="w-8 text-right text-[11px] sm:text-xs text-[#b5cea8] font-mono">
+          {level}
+        </div>
       </div>
+      <span className="text-vscode-muted text-xs">,</span>
     </div>
   );
 }
@@ -147,9 +157,9 @@ export default function SkillsFile() {
       </motion.div>
 
       {sections.map((section, sIdx) => (
-        <motion.div key={section.key} variants={fadeUp} custom={sIdx + 1} initial="hidden" animate="show" className="space-y-3 pl-6">
+        <motion.div key={section.key} variants={fadeUp} custom={sIdx + 1} initial="hidden" animate="show" className="space-y-1 pl-6">
           <div className="code-property font-mono text-xs">&quot;{section.label}&quot;: {"{"}</div>
-          <div className="space-y-3 pl-4">
+          <div className="pl-4">
             {section.items.map((s, i) => (
               <SkillBar key={s.name} {...s} delay={i * 0.03 + sIdx * 0.15} />
             ))}

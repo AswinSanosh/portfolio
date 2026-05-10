@@ -20,7 +20,6 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { portfolioData } from "@/data/portfolio";
 
 const MOBILE_NAV: { id: FileId; Icon: React.ElementType; label: string }[] = [
-  { id: "readme",   Icon: FileText, label: "Home"    },
   { id: "about",    Icon: User,     label: "About"   },
   { id: "projects", Icon: Code2,    label: "Work"    },
   { id: "github",   Icon: Github,   label: "GitHub"  },
@@ -36,8 +35,8 @@ function IDELayoutContent() {
   const [activePanel, setActivePanel]       = useState("explorer");
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [chatOpen, setChatOpen]             = useState(false);
-  const [openFiles, setOpenFiles]           = useState<FileId[]>(["readme"]);
-  const [activeFile, setActiveFile]         = useState<FileId>("readme");
+  const [openFiles, setOpenFiles]           = useState<FileId[]>(["about"]);
+  const [activeFile, setActiveFile]         = useState<FileId>("about");
   const [terminalOpen, setTerminalOpen]     = useState(false);
   const [paletteOpen, setPaletteOpen]       = useState(false);
   const [shortcutsOpen, setShortcutsOpen]   = useState(false);
@@ -55,7 +54,7 @@ function IDELayoutContent() {
   // Sync state with URL on mount
   useEffect(() => {
     const fileParam = searchParams.get("file") as FileId;
-    const validFiles = ["readme", "about", "skills", "projects", "experience", "education", "contact", "github", "about-site"];
+    const validFiles = ["about", "skills", "projects", "experience", "education", "contact", "github", "about-site"];
     if (fileParam && validFiles.includes(fileParam)) {
       setOpenFiles((prev) => (prev.includes(fileParam) ? prev : [...prev, fileParam]));
       setActiveFile(fileParam);
@@ -115,7 +114,7 @@ function IDELayoutContent() {
   const closeFile = (id: FileId) => {
     const next = openFiles.filter((f) => f !== id);
     setOpenFiles(next.length ? next : []);
-    if (activeFile === id) setActiveFile(next[next.length - 1] ?? "readme");
+    if (activeFile === id) setActiveFile(next[next.length - 1] ?? "about");
   };
 
   const closeActiveTab = () => {
@@ -205,7 +204,7 @@ function IDELayoutContent() {
   }, [isResizingChat]);
 
   const FILE_CONTENT: Record<FileId, string> = {
-    readme: portfolioData.summary + portfolioData.tagline,
+
     about: portfolioData.summary + portfolioData.tagline + portfolioData.softSkills.join(" ") + portfolioData.languages.join(" "),
     skills: Object.values(portfolioData.skills).flat().join(" "),
     projects: portfolioData.projects.map(p => `${p.name} ${p.subtitle} ${p.description} ${p.tech.join(" ")}`).join(" "),
@@ -216,7 +215,7 @@ function IDELayoutContent() {
     "about-site": "Next.js Tailwind Framer Motion Nodemailer GitHub API interactive terminal IDE layout",
   };
 
-  const searchResults = (["readme","about","skills","projects","experience","education","contact","github", "about-site"] as FileId[]).filter(id => {
+  const searchResults = (["about","skills","projects","experience","education","contact","github", "about-site"] as FileId[]).filter(id => {
     if (!searchQuery) return true;
     const content = FILE_CONTENT[id] || "";
     return (
@@ -336,7 +335,7 @@ function IDELayoutContent() {
           <div className="px-4 py-2 border-t border-vscode-border/50 mt-auto">
             <div className="text-[10px] text-vscode-muted uppercase tracking-widest mb-2">Tracked Files</div>
             <div className="space-y-1">
-              {(["readme","about","skills","projects","experience","education","contact","github"] as FileId[]).map((id) => (
+              {(["about","skills","projects","experience","education","contact","github"] as FileId[]).map((id) => (
                 <button
                   key={id}
                   onClick={() => openFile(id)}

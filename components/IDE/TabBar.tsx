@@ -4,7 +4,6 @@ import { FileText, User, Wrench, Code2, Briefcase, GraduationCap, Mail, Github, 
 import type { FileId } from "./FileExplorer";
 
 const tabMeta: Record<FileId, { name: string; ext: string; color: string; Icon: React.ElementType }> = {
-  readme:     { name: "README",      ext: ".md",   color: "#519aba", Icon: FileText      },
   about:      { name: "profile",     ext: ".tsx",  color: "#3178c6", Icon: User          },
   skills:     { name: "stack",       ext: ".json", color: "#cbcb41", Icon: Wrench        },
   projects:   { name: "index",       ext: ".tsx",  color: "#3178c6", Icon: Code2         },

@@ -7,7 +7,6 @@ import type { FileId } from "./FileExplorer";
 import { portfolioData } from "@/data/portfolio";
 
 const items: { id: FileId | "download"; label: string; desc: string; Icon: React.ElementType; type: string }[] = [
-  { id: "readme", label: "README.md", desc: "Welcome & overview", Icon: FileText, type: "file" },
   { id: "about", label: "profile.tsx", desc: "About me", Icon: User, type: "file" },
   { id: "skills", label: "stack.json", desc: "Technical skills", Icon: Wrench, type: "file" },
   { id: "projects", label: "index.tsx", desc: "Projects showcase", Icon: Code2, type: "file" },

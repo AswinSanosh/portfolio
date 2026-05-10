@@ -2,8 +2,7 @@
 import type { FileId } from "./FileExplorer";
 
 const crumbs: Record<FileId, string[]> = {
-  readme:     ["portfolio", "README.md"],
-  about:      ["portfolio", "about", "profile.tsx"],
+  about:      ["portfolio", "ASWIN-SANOSH-DEV", "profile.tsx"],
   skills:     ["portfolio", "skills", "stack.json"],
   projects:   ["portfolio", "projects", "index.tsx"],
   experience: ["portfolio", "experience", "journey.md"],

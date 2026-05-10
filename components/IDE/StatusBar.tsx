@@ -5,7 +5,6 @@ import type { FileId } from "./FileExplorer";
 import { portfolioData } from "@/data/portfolio";
 
 const fileLang: Record<FileId, string> = {
-  readme: "Markdown",
   about: "TypeScript React",
   skills: "JSON",
   projects: "TypeScript React",
