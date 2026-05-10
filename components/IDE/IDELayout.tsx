@@ -77,8 +77,8 @@ function IDELayoutContent() {
   }, []);
 
   const openFile = useCallback((id: FileId) => {
-    if ((id as string) === "chat" && typeof window !== 'undefined' && window.innerWidth < 1024) {
-      router.push("/chat");
+    if ((id as string) === "chat") {
+      setChatOpen(true);
       return;
     }
     setOpenFiles((prev) => (prev.includes(id) ? prev : [...prev, id]));
@@ -376,11 +376,7 @@ function IDELayoutContent() {
           onMobileMenu={() => setDrawerOpen((p) => !p)}
           onOpenShortcuts={() => setShortcutsOpen(true)}
           onChat={() => {
-            if (window.innerWidth < 1024) {
-              router.push("/chat");
-            } else {
-              setChatOpen(!chatOpen);
-            }
+            setChatOpen(!chatOpen);
           }}
         />
 
@@ -390,10 +386,6 @@ function IDELayoutContent() {
             activePanel={activePanel}
             onPanelChange={(p) => {
               if (p === "chat") {
-                if (window.innerWidth < 1024) {
-                  router.push("/chat");
-                  return;
-                }
                 setChatOpen(!chatOpen);
                 return;
               }

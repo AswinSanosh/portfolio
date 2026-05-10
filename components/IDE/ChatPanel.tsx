@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Bot, User, Sparkles, X, ChevronDown, RotateCcw } from "lucide-react";
+import { Send, Bot, User, Sparkles, X, ChevronDown, RotateCcw, ArrowLeft } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { portfolioData } from "@/data/portfolio";
@@ -81,20 +81,27 @@ export default function ChatPanel({ isOpen, onClose, width = 350 }: ChatPanelPro
     ]);
   };
 
-  if (!isOpen) return null;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
   return (
     <motion.div
-      initial={{ x: 400, opacity: 0 }}
+      initial={{ x: isMobile ? '100%' : 400, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      exit={{ x: 400, opacity: 0 }}
+      exit={{ x: isMobile ? '100%' : 400, opacity: 0 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="hidden md:flex flex-col bg-vscode-sidebar border-l border-vscode-border h-full relative z-[45]"
-      style={{ width }}
+      className="flex flex-col bg-vscode-sidebar border-l border-vscode-border h-full fixed md:relative right-0 inset-y-0 z-[100] md:z-[45]"
+      style={{ width: isMobile ? '100%' : width }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 h-10 border-b border-vscode-border shrink-0 bg-vscode-sidebar/50 backdrop-blur-sm">
+      <div className={`flex items-center justify-between px-4 border-b border-vscode-border shrink-0 bg-vscode-sidebar/50 backdrop-blur-sm ${isMobile ? 'h-14 pt-safe' : 'h-10'}`}>
         <div className="flex items-center gap-2">
+          {isMobile && (
+            <button 
+              onClick={onClose}
+              className="p-1.5 -ml-1.5 hover:bg-vscode-hover rounded text-vscode-muted hover:text-vscode-text transition-colors mr-1"
+            >
+              <ArrowLeft size={18} />
+            </button>
+          )}
           <Sparkles size={14} className="text-vscode-blue" />
           <span className="text-[11px] uppercase tracking-widest text-vscode-text font-semibold">AI CHAT</span>
         </div>
@@ -106,12 +113,14 @@ export default function ChatPanel({ isOpen, onClose, width = 350 }: ChatPanelPro
           >
             <RotateCcw size={14} />
           </button>
-          <button 
-            onClick={onClose}
-            className="p-1 hover:bg-vscode-hover rounded text-vscode-muted hover:text-vscode-text transition-colors"
-          >
-            <X size={16} />
-          </button>
+          {!isMobile && (
+            <button 
+              onClick={onClose}
+              className="p-1 hover:bg-vscode-hover rounded text-vscode-muted hover:text-vscode-text transition-colors"
+            >
+              <X size={16} />
+            </button>
+          )}
         </div>
       </div>
 
