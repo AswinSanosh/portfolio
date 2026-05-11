@@ -27,36 +27,14 @@ const COMMANDS: Record<string, () => string[]> = {
       { cmd: "clear", desc: "Clear terminal" },
     ];
 
-    // Use standard JS length since emojis in this font accurately take up 2 character columns
-    const maxCmdLen = Math.max(...cmds.map(c => c.cmd.length));
-    
+    const maxCmdLen = Math.max(...cmds.map((c) => c.cmd.length));
     const CMD_PADDING = 4;
-    const lines = cmds.map(c => `${c.cmd.padEnd(maxCmdLen + CMD_PADDING, " ")}— ${c.desc}`);
-    
-    const maxLen = Math.max(...lines.map(l => l.length));
-    
-    // Increase the total width of the box
-    const EXTRA_BOX_PADDING = 12;
-    const innerWidth = maxLen + EXTRA_BOX_PADDING;
+    const lines = cmds.map((c) => `${c.cmd.padEnd(maxCmdLen + CMD_PADDING, " ")}— ${c.desc}`);
 
-    const topBorder = "╔" + "═".repeat(innerWidth) + "╗";
-    const divider = "╠" + "═".repeat(innerWidth) + "╣";
-    const bottomBorder = "╚" + "═".repeat(innerWidth) + "╝";
-    
-    const title = " Available Commands ";
-    const leftPad = Math.floor((innerWidth - title.length) / 2);
-    const rightPad = innerWidth - title.length - leftPad;
-    const titleLine = "║" + "".repeat(leftPad) + title + "\t\t\t\t\t\t\t\t\t   " + "║";
+    const title = "Available Commands";
+    const underline = "-".repeat(title.length);
 
-    const textWidth = innerWidth - 4;
-
-    return [
-      topBorder,
-      titleLine,
-      divider,
-      ...lines.map(l => "║" + l.padEnd(textWidth, " ") + "║"),
-      bottomBorder
-    ];
+    return [title, underline, ...lines, "", 'Type "help" to see this list again.'];
   },
 
   whoami: () => [
@@ -118,20 +96,17 @@ const COMMANDS: Record<string, () => string[]> = {
   ],
 
   hire: () => [
-    "  ╔══════════════════════════════════════╗",
-    `  ║   🎉  Great choice! Let's connect!   ║`,
-    "  ╠══════════════════════════════════════╣",
-    "  ║                                      ║",
-    `  ║  ${portfolioData.name} is available for:             ║`,
-    "  ║  → Full-stack development roles      ║",
-    "  ║  → Internships & fresher positions   ║",
-    "  ║  → Remote, hybrid, or on-site        ║",
-    "  ║                                      ║",
-    `  ║  📧 ${portfolioData.email}          ║`,
-    "  ║                                      ║",
-    "  ╚══════════════════════════════════════╝",
+    "🎉  Great choice! Let's connect!",
+    "-------------------------------",
     "",
-    '  "I am ready to contribute from day one."',
+    `${portfolioData.name} is available for:`,
+    "→ Full-stack development roles",
+    "→ Internships & fresher positions",
+    "→ Remote, hybrid, or on-site",
+    "",
+    `📧 ${portfolioData.email}`,
+    "",
+    '"I am ready to contribute from day one."',
   ],
 
   ls: () => [
