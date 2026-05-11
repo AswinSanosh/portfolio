@@ -6,12 +6,50 @@ import { portfolioData } from "@/data/portfolio";
 
 export const metadata: Metadata = {
   title: `${portfolioData.name} | ${portfolioData.title}`,
-  description: `${portfolioData.title} skilled in ${portfolioData.skills.frameworks.slice(0, 4).join(", ")}. Building scalable, impactful applications.`,
-  keywords: [portfolioData.name, portfolioData.title, ...portfolioData.skills.frameworks.slice(0, 4), ...portfolioData.skills.languages.slice(0, 2)],
+  description: `${portfolioData.title} skilled in ${portfolioData.skills.frameworks.slice(0, 4).join(", ")}. ${portfolioData.summary.slice(0, 150)}...`,
+  keywords: [
+    portfolioData.name,
+    "Aswin Sanosh Portfolio",
+    "Aswin Sanosh Developer",
+    portfolioData.title,
+    "Software Developer Kochi",
+    "Full Stack Developer Kerala",
+    "AI ML Engineer India",
+    "Python Developer Kerala",
+    "Next.js Developer India",
+    "Django Developer Kochi",
+    "Physics-Informed AI Engineer",
+    "Digital Twin Developer",
+    ...portfolioData.skills.frameworks,
+    ...portfolioData.skills.languages,
+    ...portfolioData.skills.domains
+  ],
+  authors: [{ name: portfolioData.name }],
+  creator: portfolioData.name,
   openGraph: {
     title: `${portfolioData.name} | ${portfolioData.title}`,
-    description: "Explore my portfolio in an interactive VS Code experience.",
+    description: "Explore my professional portfolio and technical projects in an interactive VS Code experience.",
+    url: "https://aswinsanosh.in", // Defaulting to common name, update if different
+    siteName: `${portfolioData.name} Portfolio`,
+    locale: "en_IN",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${portfolioData.name} | ${portfolioData.title}`,
+    description: portfolioData.tagline,
+    creator: "@aswinsanosh", // Assuming based on name
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   icons: {
     icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23007acc%22 /><path d=%22M30 35l-15 15 15 15M70 35l15 15-15 15%22 fill=%22none%22 stroke=%22white%22 stroke-width=%228%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 /><path d=%22M55 30l-10 40%22 fill=%22none%22 stroke=%22white%22 stroke-width=%228%22 stroke-linecap=%22round%22 /></svg>',
