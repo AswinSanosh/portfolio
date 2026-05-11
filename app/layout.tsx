@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { portfolioData } from "@/data/portfolio";
 
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="h-screen overflow-hidden bg-vscode-bg text-vscode-text font-mono">
         {children}
+        <Analytics />
       </body>
     </html>
   );
