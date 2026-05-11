@@ -52,7 +52,7 @@ export default function BootScreen({ onComplete }: { onComplete: () => void }) {
           {/* Subtle background glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-vscode-blue/5 blur-[120px] rounded-full pointer-events-none" />
 
-          <div className="w-full max-w-lg px-8 flex flex-col items-center text-center space-y-12 relative z-10">
+          <div className="w-full max-w-lg px-8 flex flex-col items-center text-center space-y-6 md:space-y-12 relative z-10">
             {/* Branding */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -60,12 +60,12 @@ export default function BootScreen({ onComplete }: { onComplete: () => void }) {
               transition={{ duration: 0.6 }}
               className="space-y-3"
             >
-              <div className="flex justify-center mb-6">
-                 <div className="w-16 h-16 rounded-2xl bg-vscode-blue flex items-center justify-center shadow-2xl shadow-blue-500/20">
-                    <Code2 size={32} className="text-white" />
+              <div className="flex justify-center mb-4 md:mb-6">
+                 <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-vscode-blue flex items-center justify-center shadow-2xl shadow-blue-500/20">
+                    <Code2 className="text-white w-6 h-6 md:w-8 md:h-8" />
                  </div>
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+              <h1 className="text-2xl md:text-4xl font-bold text-white tracking-tight">
                 {portfolioData.name}
               </h1>
               <p className="text-vscode-blue font-mono text-sm tracking-wider uppercase opacity-80">
@@ -80,23 +80,23 @@ export default function BootScreen({ onComplete }: { onComplete: () => void }) {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="w-full space-y-4"
             >
-              <div className="flex items-center gap-2 text-vscode-muted text-[10px] uppercase tracking-[0.2em] justify-center mb-2">
+              <div className="flex items-center gap-2 text-vscode-muted text-[10px] uppercase tracking-[0.2em] justify-center mb-1 md:mb-2">
                 <Keyboard size={12} />
                 <span>Quick Shortcuts</span>
               </div>
-              <div className="grid grid-cols-1 gap-2">
+              <div className="grid grid-cols-2 md:grid-cols-1 gap-1.5 md:gap-2">
                 {SHORTCUTS.map((sc, i) => (
                   <div 
                     key={i} 
-                    className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] backdrop-blur-sm"
+                    className="flex items-center justify-between px-3 py-2 md:px-4 md:py-3 rounded-lg md:rounded-xl bg-white/[0.03] border border-white/[0.05] backdrop-blur-sm"
                   >
-                    <div className="flex items-center gap-3 text-vscode-text/80 text-xs">
-                      <sc.Icon size={14} className="text-vscode-blue/60" />
+                    <div className="flex items-center gap-2 md:gap-3 text-vscode-text/80 text-[10px] md:text-xs text-left">
+                      <sc.Icon className="text-vscode-blue/60 w-3 h-3 md:w-3.5 md:h-3.5 shrink-0" />
                       <span>{sc.label}</span>
                     </div>
-                    <div className="flex gap-1.5">
+                    <div className="flex gap-1">
                       {sc.keys.map((k, j) => (
-                        <kbd key={j} className="text-[10px] font-mono text-vscode-muted px-2 py-0.5 rounded-md border border-white/10 bg-white/5 shadow-inner">
+                        <kbd key={j} className="text-[9px] md:text-[10px] font-mono text-vscode-muted px-1.5 md:px-2 py-0.5 rounded-md border border-white/10 bg-white/5 shadow-inner">
                           {k}
                         </kbd>
                       ))}
@@ -107,7 +107,7 @@ export default function BootScreen({ onComplete }: { onComplete: () => void }) {
             </motion.div>
 
             {/* Loading & Action */}
-            <div className="w-full pt-4 h-24 flex flex-col items-center justify-center">
+            <div className="w-full pt-2 md:pt-4 h-20 md:h-24 flex flex-col items-center justify-center">
               <AnimatePresence mode="wait">
                 {!isLoaded ? (
                   <motion.div
@@ -144,7 +144,7 @@ export default function BootScreen({ onComplete }: { onComplete: () => void }) {
           </div>
 
           {/* Bottom Footer Info */}
-          <div className="absolute bottom-8 text-center space-y-1 opacity-40">
+          <div className="absolute bottom-6 md:bottom-8 text-center space-y-1 opacity-40">
             <p className="text-[10px] text-vscode-muted font-mono tracking-widest uppercase">
               Next.js + Express.js + Tailwind CSS
             </p>

@@ -173,7 +173,7 @@ Full Stack Developer, AI/ML Developer, and 3D Artist with strong experience in b
 - 🤖 **Machine Learning & Data Science** – Udemy
 - 🔌 **Electronics and PCB Design** – Udemy
 - 🏆 **Winner – Meta SparkAR Competition** (April 2021)
-
+![alt text](image.png)
 ---
 
 ### 📈 Contribution Graph
