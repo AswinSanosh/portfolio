@@ -83,7 +83,7 @@ export default function TitleBar({
       {/* Center: command palette — always truly centered */}
       <button
         onClick={onCommandPalette}
-        className="flex items-center gap-20 px-3 py-1 rounded bg-vscode-border/50 hover:bg-vscode-border text-vscode-muted hover:text-vscode-text text-xs transition-all border border-vscode-border/50 whitespace-nowrap"
+        className="flex items-center gap-4 sm:gap-20 px-3 py-1 rounded bg-vscode-border/50 hover:bg-vscode-border text-vscode-muted hover:text-vscode-text text-xs transition-all border border-vscode-border/50 whitespace-nowrap"
         title="Open Command Palette (Ctrl+K)"
       >
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0">

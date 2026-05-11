@@ -537,10 +537,10 @@ export default function GithubFile() {
                 <ExternalLink size={11} />
               </a>
             </div>
-            {user.bio && <div className="text-vscode-muted text-xs">{user.bio}</div>}
+            {user.bio && <div className="text-vscode-muted text-xs break-words">{user.bio}</div>}
             <div className="flex flex-wrap gap-3 text-[11px] text-vscode-muted pt-1">
               {user.location && <span className="flex items-center gap-1"><MapPin size={11} />{user.location}</span>}
-              {user.blog && <a href={user.blog} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-vscode-blue hover:underline"><Link2 size={11} />{user.blog}</a>}
+              {user.blog && <a href={user.blog} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-vscode-blue/30 bg-vscode-blue/10 text-vscode-blue hover:bg-vscode-blue/20 transition-colors"><Link2 size={11} />Visit Page</a>}
               <span className="flex items-center gap-1"><Calendar size={11} />Joined {new Date(user.createdAt).getFullYear()}</span>
             </div>
           </div>
@@ -663,7 +663,7 @@ export default function GithubFile() {
                 <div className="flex-1 min-w-0">
                   <div className="text-xs text-vscode-text truncate">{commit.message}</div>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[10px] text-vscode-cyan">{commit.repo}</span>
+                    <span className="text-[10px] text-vscode-cyan truncate block">{commit.repo}</span>
                     <span className="text-[10px] text-vscode-muted">
                       {commit.date ? new Date(commit.date).toLocaleDateString("en-IN") : ""}
                     </span>

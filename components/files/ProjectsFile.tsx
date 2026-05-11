@@ -70,12 +70,12 @@ export default function ProjectsFile() {
           />
         </div>
         
-        <div className="flex flex-wrap gap-2 items-center">
+        <div className="grid grid-cols-[1fr_1fr_auto] sm:flex sm:flex-nowrap gap-2 items-center w-full sm:w-auto">
           <div className="relative">
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="appearance-none bg-[#1e1e1e] border border-vscode-border rounded-lg py-2 pl-3 pr-8 text-xs text-vscode-text focus:outline-none focus:border-vscode-blue transition-colors shadow-inner shadow-black/20"
+              className="appearance-none w-full bg-[#1e1e1e] border border-vscode-border rounded-lg py-2 pl-3 pr-8 text-xs text-vscode-text focus:outline-none focus:border-vscode-blue transition-colors shadow-inner shadow-black/20"
             >
               {categories.map(cat => (
                 <option key={cat} value={cat}>{cat}</option>
@@ -88,7 +88,7 @@ export default function ProjectsFile() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="appearance-none bg-[#1e1e1e] border border-vscode-border rounded-lg py-2 pl-3 pr-8 text-xs text-vscode-text focus:outline-none focus:border-vscode-blue transition-colors shadow-inner shadow-black/20"
+              className="appearance-none w-full bg-[#1e1e1e] border border-vscode-border rounded-lg py-2 pl-3 pr-8 text-xs text-vscode-text focus:outline-none focus:border-vscode-blue transition-colors shadow-inner shadow-black/20"
             >
               <option value="default">Default Order</option>
               <option value="name">Name (A-Z)</option>
@@ -168,13 +168,13 @@ export default function ProjectsFile() {
                               </span>
                             ))}
                           </div>
-                          <div className="flex gap-2 pt-2 border-t border-vscode-border/50">
+                          <div className="flex flex-wrap gap-2 pt-2 border-t border-vscode-border/50">
                             {(project as any).link && (
                               <a
                                 href={(project as any).link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded border transition-colors hover:opacity-80 font-medium"
+                                className="flex-1 flex items-center justify-center gap-1.5 text-[10px] px-2.5 py-1 rounded border transition-colors hover:opacity-80 font-medium"
                                 style={{ borderColor: project.color, color: project.color, background: project.color + "10" }}
                               >
                                 <ExternalLink size={10} /> View Project
@@ -185,7 +185,7 @@ export default function ProjectsFile() {
                                 href={(project as any).github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded border transition-colors hover:opacity-80"
+                                className="flex-1 flex items-center justify-center gap-1.5 text-[10px] px-2.5 py-1 rounded border transition-colors hover:opacity-80"
                                 style={{ borderColor: project.color + "40", color: project.color }}
                               >
                                 <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -286,7 +286,7 @@ export default function ProjectsFile() {
                                       href={(project as any).link}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded border transition-colors hover:opacity-80 font-medium"
+                                      className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 text-xs px-3 py-1.5 rounded border transition-colors hover:opacity-80 font-medium"
                                       style={{ borderColor: project.color, color: project.color, background: project.color + "15" }}
                                     >
                                       <ExternalLink size={12} /> View Project
@@ -297,7 +297,7 @@ export default function ProjectsFile() {
                                       href={(project as any).github}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded border transition-colors hover:opacity-80"
+                                      className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 text-xs px-3 py-1.5 rounded border transition-colors hover:opacity-80"
                                       style={{ borderColor: project.color + "60", color: project.color }}
                                     >
                                       <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
