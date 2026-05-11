@@ -229,12 +229,28 @@ function IDELayoutContent() {
   });
 
   const sidebarPanelContent = (
-    <>
+    <AnimatePresence mode="wait" initial={false}>
       {activePanel === "explorer" && (
-        <FileExplorer activeFile={activeFile} openFiles={openFiles} onFileOpen={openFile} />
+        <motion.div
+          key="explorer"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -10 }}
+          transition={{ duration: 0.2 }}
+          className="flex-1 flex flex-col min-h-0 h-full"
+        >
+          <FileExplorer activeFile={activeFile} openFiles={openFiles} onFileOpen={openFile} />
+        </motion.div>
       )}
       {activePanel === "search" && (
-        <div className="flex-1 bg-vscode-sidebar flex flex-col min-h-0 overflow-hidden">
+        <motion.div
+          key="search"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -10 }}
+          transition={{ duration: 0.2 }}
+          className="flex-1 bg-vscode-sidebar flex flex-col min-h-0 overflow-hidden h-full"
+        >
           <div className="p-4 border-b border-vscode-border/50">
             <div className="text-[11px] text-vscode-muted uppercase tracking-widest mb-3">Search</div>
             <div className="relative group">
@@ -279,10 +295,17 @@ function IDELayoutContent() {
                )}
              </div>
           </div>
-        </div>
+        </motion.div>
       )}
       {activePanel === "git" && (
-        <div className="flex-1 bg-vscode-sidebar flex flex-col overflow-hidden">
+        <motion.div
+          key="git"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -10 }}
+          transition={{ duration: 0.2 }}
+          className="flex-1 bg-vscode-sidebar flex flex-col overflow-hidden h-full"
+        >
           <div className="px-4 pt-4 pb-2">
             <div className="text-[11px] text-vscode-muted uppercase tracking-widest mb-3">Source Control</div>
             <div className="flex items-center justify-between">
@@ -351,10 +374,17 @@ function IDELayoutContent() {
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
       {activePanel === "extensions" && (
-        <div className="flex-1 bg-vscode-sidebar p-4 overflow-y-auto">
+        <motion.div
+          key="extensions"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -10 }}
+          transition={{ duration: 0.2 }}
+          className="flex-1 bg-vscode-sidebar p-4 overflow-y-auto h-full"
+        >
           <div className="text-[11px] text-vscode-muted uppercase tracking-widest mb-3">Tech Stack</div>
           <div className="space-y-2 text-xs">
             {[
@@ -377,9 +407,9 @@ function IDELayoutContent() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 
   return (
@@ -410,7 +440,7 @@ function IDELayoutContent() {
         />
 
       <div className="flex flex-1 overflow-hidden min-h-0 relative">
-        <div className="hidden md:block shrink-0">
+        <div className="hidden md:block shrink-0 relative z-20 bg-vscode-sidebar">
           <ActivityBar
             activePanel={activePanel}
             onPanelChange={(p) => {
@@ -428,7 +458,7 @@ function IDELayoutContent() {
         </div>
 
         {sidebarVisible && (
-          <div className="hidden md:flex shrink-0" style={{ width: sidebarWidth }}>
+          <div className="hidden md:flex shrink-0 relative z-10" style={{ width: sidebarWidth }}>
             {sidebarPanelContent}
           </div>
         )}
