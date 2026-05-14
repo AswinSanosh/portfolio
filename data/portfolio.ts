@@ -34,7 +34,7 @@ export const portfolioData = {
   projects: [
     {
       id: "trueseal",
-      name: "TrueSeal",
+      name: "TrueSeal (Under Development)",
       subtitle: "Verified Resume & Hiring Platform",
       description: "A comprehensive platform to verify resumes, create professional profiles, conduct interviews with AI, and apply for jobs efficiently.",
       tech: ["Next.js", "React.js", "AI/ML", "TypeScript", "Flask", "AWS", "Docker", "PostgreSQL", "Tailwind CSS"],
