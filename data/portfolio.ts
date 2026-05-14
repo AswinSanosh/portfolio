@@ -166,7 +166,7 @@ export const portfolioData = {
       subtitle: "3D interactive portfolio for game studio",
       description:
         "Developed an immersive studio website with interactive 3D visuals and a narrative-driven experience aligned with gaming aesthetics.",
-      tech: ["Next.js", "WebGL"],
+      tech: ["Next.js", "Tailwind CSS", "TypeScript", "Supabase PostgreSQL"],
       highlight: false,
       icon: "🎮",
       link: "https://redwills.com",
