@@ -153,7 +153,7 @@ export const portfolioData = {
       subtitle: "3D printing e-commerce platform",
       description:
         "Built a 3D-printing e-commerce platform with interactive model customization, order tracking, and product management workflows.",
-      tech: ["Next.js", "Three.js", "MySQL"],
+      tech: ["Next.js", "Three.js", "Tailwind CSS", "TypeScript"],
       highlight: false,
       icon: "🧊",
       link: "https://helekin.in",
