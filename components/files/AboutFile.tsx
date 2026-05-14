@@ -40,6 +40,17 @@ function AnimatedCounter({ to, suffix = "" }: { to: number; suffix?: string }) {
 
 export default function AboutFile({ onNavigate }: { onNavigate?: (id: FileId) => void }) {
   const [showImageModal, setShowImageModal] = useState(false);
+  const [githubData, setGithubData] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/github")
+      .then(r => r.json())
+      .then(d => {
+        if (!d.error) setGithubData(d);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <div className="p-4 sm:p-6 md:p-8 max-w-4xl mx-auto space-y-8 text-sm pb-12">
       <motion.div variants={fadeUp} custom={0} initial="hidden" animate="show" className="font-mono text-xs space-y-1">
@@ -82,14 +93,21 @@ export default function AboutFile({ onNavigate }: { onNavigate?: (id: FileId) =>
       <motion.div variants={fadeUp} custom={2} initial="hidden" animate="show" className="pl-6 font-mono text-xs space-y-2">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           {[
-            { label: "Projects Built", value: portfolioData.projects.length, suffix: "+" },
+            { label: "Significant Projects", value: portfolioData.projects.length, suffix: "+" },
             { label: "Technologies",   value: portfolioData.skills.frameworks.length, suffix: "+" },
-            { label: "Experience",     value: portfolioData.experience.length, suffix: ""  },
+            { label: "Experiences",     value: portfolioData.experience.length, suffix: ""  },
             { label: "Graduating",     value: 2026, suffix: ""  },
+            { label: "GitHub Repos",   value: githubData?.stats?.totalRepos || 0, suffix: "" },
+            { label: "Total Commits",  value: githubData?.stats?.allTimeCommits || githubData?.stats?.totalCommits || 0, suffix: "+" },
+            { label: "Pull Requests",  value: githubData?.stats?.allTimePRs || githubData?.stats?.totalPRs || 0, suffix: "" },
           ].map((stat) => (
             <div key={stat.label} className="p-3 rounded-lg bg-vscode-sidebar border border-vscode-border text-center hover:border-vscode-blue/50 transition-colors">
               <div className="text-2xl font-bold text-vscode-blue glow-blue">
-                <AnimatedCounter to={stat.value} suffix={stat.suffix} />
+                {stat.value === 0 && !githubData && stat.label !== "Experience" && stat.label !== "Graduating" ? (
+                  <span className="opacity-50 text-xl">...</span>
+                ) : (
+                  <AnimatedCounter to={stat.value} suffix={stat.suffix} />
+                )}
               </div>
               <div className="text-vscode-muted text-[11px] mt-0.5">{stat.label}</div>
             </div>
