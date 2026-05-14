@@ -61,30 +61,18 @@ function IDELayoutContent() {
     }
   }, []);
 
-  // Sync chatOpen state with URL params
-  useEffect(() => {
-    setChatOpen(searchParams.get("chat") === "true");
-  }, [searchParams]);
+  // Chat is strictly state-based to prevent page reloads
+  // useEffect(() => {
+  //   setChatOpen(searchParams.get("chat") === "true");
+  // }, [searchParams]);
 
   const openChat = useCallback(() => {
-    if (!chatOpen) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("chat", "true");
-      router.push(`${pathname}?${params.toString()}`, { scroll: false });
-    }
-  }, [chatOpen, router, pathname, searchParams]);
+    setChatOpen(true);
+  }, []);
 
   const closeChat = useCallback(() => {
-    if (chatOpen) {
-      if (window.history.length > 2) {
-        router.back();
-      } else {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("chat");
-        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-      }
-    }
-  }, [chatOpen, router, pathname, searchParams]);
+    setChatOpen(false);
+  }, []);
 
   // Sync URL with activeFile
   useEffect(() => {
@@ -145,7 +133,7 @@ function IDELayoutContent() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [chatOpen, openChat, closeChat]);
+  }, [chatOpen]);
 
   useEffect(() => {
     const t = setTimeout(() => setToast("Welcome! Type 'help' in terminal or press Ctrl+K"), 1200);
