@@ -39,11 +39,22 @@ export const portfolioData = {
       name: "TrueSeal (Under Development)",
       subtitle: "Verified Resume & Hiring Platform",
       description: "A comprehensive platform to verify resumes, create professional profiles, conduct interviews with AI, and apply for jobs efficiently.",
-      tech: ["Next.js", "React.js", "AI/ML", "TypeScript", "Flask", "AWS", "Docker", "PostgreSQL", "Tailwind CSS"],
+      tech: ["AWS EC2", "Next.js", "Tailwind CSS", "TypeScript", "Django", "Flask (AI backend)", "Celery", "Redis", "Redux"],
       highlight: true,
       icon: "📜",
       link: "https://trueseal.in",
       color: "#f97316",
+      category: "Web Applications",
+    },
+    {
+      id: "matrimony",
+      name: "Matrimony Website",
+      subtitle: "Community Matrimonial Platform",
+      description: "Built a matrimony website for a community.",
+      tech: ["AWS Amplify", "Flutter", "Next.js", "Tailwind CSS", "TypeScript", "Firebase", "Redux", "RBAC", "Oracle", "Razer Pay"],
+      highlight: true,
+      icon: "💍",
+      color: "#f43f5e",
       category: "Web Applications",
     },
     {
@@ -65,7 +76,7 @@ export const portfolioData = {
       subtitle: "Full-stack platform for stock analysis",
       description:
         "Built a full-stack stock prediction platform with pattern detection, visual analytics, REST APIs, and real-time alerts.",
-      tech: ["React.js", "Django", "PostgreSQL"],
+      tech: ["React.js", "Tailwind CSS", "Django", "PostgreSQL"],
       highlight: true,
       icon: "📈",
       color: "#dcdcaa",
@@ -77,7 +88,7 @@ export const portfolioData = {
       subtitle: "3D body geometry extraction",
       description:
         "Developed an AI-based body shape classification system using pose estimation, body geometry extraction, and anthropometric analysis for fit recommendations.",
-      tech: ["Python", "OpenCV", "OpenPose", "Shapy AI"],
+      tech: ["PHP", "Python", "OpenCV", "OpenPose", "Shapy AI"],
       highlight: false,
       link: "https://github.com/AswinSanosh/chic2",
       icon: "🧍",
@@ -129,7 +140,7 @@ export const portfolioData = {
       subtitle: "College fest platform",
       description:
         "Built the official event platform for a college techno-cultural fest with registrations, announcements, participant dashboards, and coordination workflows.",
-      tech: ["Next.js", "Redux", "Tailwind CSS", "MySQL"],
+      tech: ["AWS Lambda", "Next.js", "Tailwind CSS", "Redux", "MySQL"],
       highlight: false,
       icon: "🎉",
       link: "https://github.com/AswinSanosh/Samyukta2k25",
@@ -142,7 +153,7 @@ export const portfolioData = {
       subtitle: "Telemetry dashboards and anomaly detection",
       description:
         "Engineered flight software with telemetry dashboards, anomaly detection, and alerting workflows using ESP32-based microcontrollers and thermal sensor data for satellite operations.",
-      tech: ["Django", "React.js", "MySQL", "ESP32", "IoT"],
+      tech: ["Django", "Vite React.js", "Tailwind CSS", "MySQL", "ESP32", "Thermal Sensors", "IoT"],
       highlight: false,
       icon: "🛰️",
       link: "https://github.com/AswinSanosh/CANSAT",
@@ -155,7 +166,7 @@ export const portfolioData = {
       subtitle: "3D printing e-commerce platform",
       description:
         "Built a 3D-printing e-commerce platform with interactive model customization, order tracking, and product management workflows.",
-      tech: ["Next.js", "Three.js", "Tailwind CSS", "TypeScript"],
+      tech: ["Next.js", "Tailwind CSS", "Three.js", "MySQL"],
       highlight: false,
       icon: "🧊",
       link: "https://helekin.in",
@@ -168,7 +179,7 @@ export const portfolioData = {
       subtitle: "3D interactive portfolio for game studio",
       description:
         "Developed an immersive studio website with interactive 3D visuals and a narrative-driven experience aligned with gaming aesthetics.",
-      tech: ["Next.js", "Tailwind CSS", "TypeScript", "Supabase PostgreSQL"],
+      tech: ["Vite React.js", "Tailwind CSS"],
       highlight: false,
       icon: "🎮",
       link: "https://redwills.com",
