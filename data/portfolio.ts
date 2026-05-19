@@ -26,7 +26,7 @@ export const portfolioData = {
       "AWS (Amplify, Lambda, EC2, S3)", "Azure"
     ],
     tools: [
-      "Git", "VS Code", "PyCharm", "Google Colab", "Figma", "Blender", "Arduino IDE"
+      "Git", "VS Code", "PyCharm", "Google Colab", "Figma", "Blender", "Arduino IDE", "Unity AR/VR/MR"
     ],
     domains: [
       "Full-Stack Development", "AI/ML", "IoT", "Computer Vision", "Real-Time Systems", "3D Modeling", "3D Printing", "Animation"
