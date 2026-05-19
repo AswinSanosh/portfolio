@@ -29,8 +29,8 @@ function SkillBar({ name, level, color, delay }: SkillBarProps) {
           <motion.div
             className="absolute top-0 left-0 bottom-0 rounded-full"
             style={{ 
-              backgroundColor: color,
-              boxShadow: `0 0 8px ${color}80` 
+              backgroundColor: "rgb(var(--theme-accent))",
+              boxShadow: "0 0 8px rgba(var(--theme-accent), 0.5)" 
             }}
             initial={{ width: 0 }}
             animate={{ width: `${width}%` }}
