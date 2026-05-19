@@ -1,7 +1,7 @@
 
 export const portfolioData = {
   name: "Aswin Sanosh",
-  title: "Software Developer",
+  title: "AI Automation Engineer",
   tagline: "Full Stack · AI/ML · Real-Time Systems",
   email: "aswinsanosh97@gmail.com",
   phone: "+91 89439 63650",
@@ -13,7 +13,7 @@ export const portfolioData = {
 
   skills: {
     languages: [
-      "Python", "JavaScript", "Java", "C++", "C", "SQL", "Dart", "HTML/CSS"
+      "Python", "JavaScript", "TypeScript", "Java", "C++", "C", "PHP", "R", "VB .NET", "SQL", "Dart", "HTML/CSS"
     ],
     frameworks: [
       "Django", "Django REST Framework", "React.js", "Next.js", "Node.js", "Express.js", "NestJS", "Flutter", "React Native", "Three.js", "Tailwind CSS"
@@ -22,7 +22,9 @@ export const portfolioData = {
       "NumPy", "Pandas", "SciPy", "Scikit-learn", "TensorFlow", "PyTorch", "OpenCV", "YOLOv8", "Hugging Face Transformers", "MLflow"
     ],
     databases: ["PostgreSQL", "MySQL", "MongoDB", "SQLite", "Firebase", "Supabase"],
-    cloud: [],
+    cloud: [
+      "AWS (Amplify, Lambda, EC2, S3)", "Azure"
+    ],
     tools: [
       "Git", "VS Code", "PyCharm", "Google Colab", "Figma", "Blender", "Arduino IDE"
     ],
@@ -239,7 +241,7 @@ export const portfolioData = {
       institution: "Saintgits College of Engineering, Kottayam",
       period: "2021 – 2026",
       location: "Kerala, India",
-      score: "CGPA: 7.54/10",
+      score: "CGPA: 7.79/10",
     },
     {
       degree: "Plus Two (Senior Secondary)",
