@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { portfolioData } from "@/data/portfolio";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: `${portfolioData.name} | ${portfolioData.title}`,
